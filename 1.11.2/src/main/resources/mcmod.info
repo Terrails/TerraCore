@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "terracore",
+    "name": "TerraCore",
+    "description": "Library for Terrails' mods",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://minecraft.curseforge.com/projects/terracore",
+    "updateUrl": "",
+    "authorList": ["Terrails"],
+    "credits": "Authored by Terrails",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
