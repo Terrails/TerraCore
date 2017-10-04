@@ -5,10 +5,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import org.apache.commons.lang3.StringUtils;
 
-@SuppressWarnings("deprecation")
 public class StringHelper {
 
+    public static String getSubstringBefore(String string, String index) {
+        return string.substring(0, string.indexOf(index));
+    }
+    public static String getSubstringAfter(String string, String index) {
+        return string.substring(string.indexOf(index));
+    }
 
+    /*
     @SuppressWarnings("deprecation")
     public static IBlockState generatingBlock(String string) {
         if (!string.isEmpty()) {
@@ -44,19 +50,15 @@ public class StringHelper {
                     int metadata = replace.contains("-meta:") ? replacingBlockMetadata(replace) : 0;
                     String theReplaceBlock = replace.contains("-meta:") ? replace.substring(0, replace.indexOf("-meta:")) : replace;
                     Block theBlock = Block.getBlockFromName(theReplaceBlock);
-                    //    Block blockState = theBlock != null ? theBlock.getStateFromMeta(metadata).getBlock() : null;
                     replaceBlock = theBlock != null ? theBlock.getStateFromMeta(metadata).getBlock() : null;
                 }
                 return replaceBlock;
             }
 
             else if (!replace2.contains("|")) {
-                //    Block replaceBlock = null;
                 int metadata = replace2.contains("-meta:") ? replacingBlockMetadata(replace2) : 0;
                 String theReplaceBlock = replace2.contains("-meta:") ? replace2.substring(0, replace2.indexOf("-meta:")) : replace2;
                 Block theBlock = Block.getBlockFromName(theReplaceBlock);
-                //      Block blockState = theBlock != null ? theBlock.getStateFromMeta(metadata).getBlock() : null;
-                //     replaceBlock = blockState;
                 return theBlock != null ? theBlock.getStateFromMeta(metadata).getBlock() : null;
             }
         }
@@ -64,15 +66,9 @@ public class StringHelper {
     }
     private static int replacingBlockMetadata(String string) {
         if (string.contains("-meta:")) {
-            //   int meta = 0;
-            //   String[] array = string.split("\\|");
-
-            //     for (String replace3 : array) {
             String metaDataString = string.replaceAll("^.*(-meta:\\d+).*$", "$1");
             String metaDataDigit = CharMatcher.DIGIT.retainFrom(metaDataString);
             int metaData = Integer.parseInt(metaDataDigit);
-            //   meta = metaData;
-            //     }
             return metaData;
         }
         else return 0;
@@ -165,5 +161,5 @@ public class StringHelper {
             }
         }
         return 0;
-    }
+    }*/
 }
