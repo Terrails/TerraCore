@@ -68,10 +68,7 @@ public class BlockBase extends Block {
         return true;
     }
 
-    @Override
-    public boolean isTopSolid(IBlockState state) {
-        return true;
-    }
+
 
     @Override
     public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {

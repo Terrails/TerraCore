@@ -33,7 +33,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId 'terrails.terracore'
-            artifactId 'TerraCore-1.11'
+            artifactId 'TerraCore-1.10'
 
             from components.java
         }

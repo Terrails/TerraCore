@@ -36,18 +36,17 @@ public class ItemCraftingDurabilityBase extends ItemBase {
     public ItemStack getContainerItem(ItemStack stack) {
         ItemStack leStack = stack.copy();
         leStack.setItemDamage(leStack.getItemDamage()+1);
-        return setStackSize(leStack, 1);
+        return setStackSize(leStack, 1, false);
     }
-    public static ItemStack setStackSize(ItemStack stack, int size){
-        if(size <= 0){
-            if (stack != null && !stack.isEmpty()){
+    public static ItemStack setStackSize(ItemStack stack, int size, boolean containerOnEmpty)
+    {
+        if (size <= 0) {
+            if (stack != null && (containerOnEmpty)) {
                 return stack.getItem().getContainerItem(stack);
             }
-            else{
-                return ItemStack.EMPTY;
-            }
+            return null;
         }
-        stack.setCount(size);
+        stack.stackSize = size;
         return stack;
     }
 

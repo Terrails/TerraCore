@@ -3,10 +3,10 @@ package terrails.terracore.item;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemMetadataBase extends Item {
 
@@ -26,7 +26,7 @@ public class ItemMetadataBase extends Item {
     }
 
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
         for (int i = 0; i < valuesLenght; ++i)
         {
             subItems.add(new ItemStack(itemIn, 1, i));
