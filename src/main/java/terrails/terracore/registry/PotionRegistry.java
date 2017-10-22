@@ -3,37 +3,37 @@ package terrails.terracore.registry;
 import net.minecraft.potion.Potion;
 import terrails.terracore.Constants;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PotionRegistry {
 
-    private static Map<String, Potion> potionMap;
-    private static String modID;
+    private static List<Potion> potionList = new ArrayList<>();
 
-    public static void setPotionMap(Map<String, Potion> map, String modName) {
-        potionMap = map;
-        modID = modName;
+    public static void setPotionList(List<Potion> customList) {
+        potionList = customList;
     }
-    public static Map<String, Potion> getPotionMap() {
-        return potionMap;
+
+    public static List<Potion> getPotionList() {
+        return potionList;
     }
+
     public static Potion[] getPotions() {
-        return getPotionMap().values().toArray(new Potion[getPotionMap().size()]);
+        return getPotionList().toArray(new Potion[getPotionList().size()]);
     }
 
-    public static Potion addPotion(String key, Potion potion) {
-        getPotionMap().put(key, potion);
+    public static <T extends Potion> Potion addPotion(T potion) {
+        getPotionList().add(potion);
         return potion;
     }
+
     public static Potion getPotion(String potionName) {
-        for (Map.Entry<String, Potion> entry : getPotionMap().entrySet()) {
-            String key = entry.getKey();
-            Potion value = entry.getValue();
-            if (key.equals(potionName)) {
-                return value;
+        for (Potion potion : getPotions()) {
+            if (potion.getRegistryName() != null && potion.getRegistryName().getResourcePath().contains(potionName)) {
+                return potion;
             }
         }
-        Constants.getLogger(modID).error(potionName + ", is an invalid potion name, please report to mod author! (unluck given to prevent a crash)");
-        return Potion.getPotionFromResourceLocation("unluck");
+        Constants.getLogger("TerraCore Potion Registry").info("There was an error with " + potionName + ", report to github!");
+        return null;
     }
 }

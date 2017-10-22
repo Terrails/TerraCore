@@ -3,6 +3,7 @@ package terrails.terracore.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -28,6 +29,22 @@ public class BlockBase extends Block {
     public BlockBase(Material materialIn, String name, boolean delayDrop) {
         this(materialIn, name);
         this.delayDrop = delayDrop;
+    }
+
+    @Override
+    public BlockBase setCreativeTab(CreativeTabs tab) {
+        super.setCreativeTab(tab);
+        return this;
+    }
+
+    public BlockBase setHarvest(String toolClass, int level) {
+        super.setHarvestLevel(toolClass, level);
+        return this;
+    }
+
+    public BlockBase setLightLevel(float value) {
+        super.setLightLevel(value);
+        return this;
     }
 
     @Override

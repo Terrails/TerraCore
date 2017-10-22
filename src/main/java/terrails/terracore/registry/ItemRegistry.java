@@ -1,40 +1,39 @@
 package terrails.terracore.registry;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import terrails.terracore.Constants;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemRegistry {
 
-    private static Map<String, Item> itemMap;
-    private static String modID;
+    private static List<Item> itemList = new ArrayList<>();
 
-    public static void setItemMap(Map<String, Item> map, String modName) {
-        itemMap = map;
-        modID = modName;
+    public static void setItemList(List<Item> customList) {
+        itemList = customList;
     }
-    public static Map<String, Item> getItemMap() {
-        return itemMap;
+
+    public static List<Item> getItemList() {
+        return itemList;
     }
+
     public static Item[] getItems() {
-        return getItemMap().values().toArray(new Item[getItemMap().size()]);
+        return getItemList().toArray(new Item[getItemList().size()]);
     }
 
-    public static Item addItem(String key, Item item) {
-        getItemMap().put(key, item);
+    public static <T extends Item> Item addItem(T item) {
+        getItemList().add(item);
         return item;
     }
+
     public static Item getItem(String itemName) {
-        for (Map.Entry<String, Item> entry : getItemMap().entrySet()) {
-            String key = entry.getKey();
-            Item value = entry.getValue();
-            if (key.equals(itemName)) {
-                return value;
+        for (Item item : getItems()) {
+            if (item.getRegistryName() != null && item.getRegistryName().getResourcePath().contains(itemName)) {
+                return item;
             }
         }
-        Constants.getLogger(modID).error(itemName + ", is an invalid item name, please report to mod author! (string given to prevent a crash)");
-        return Items.STRING;
+        Constants.getLogger("TerraCore Item Registry").info("There was an error with " + itemName + ", report to github!");
+        return null;
     }
 }

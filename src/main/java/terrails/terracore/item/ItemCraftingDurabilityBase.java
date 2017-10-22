@@ -13,21 +13,22 @@ public class ItemCraftingDurabilityBase extends ItemBase {
     private String information;
     private boolean infoDamage;
     private int maxDamage;
+    protected String modid;
 
-    public ItemCraftingDurabilityBase(String modid, String name, int damage) {
-        super(modid, name);
+    public ItemCraftingDurabilityBase(String name, int damage) {
+        super(name);
         this.setMaxDamage(damage-1);
         this.setMaxStackSize(1);
         this.setContainerItem(this);
         this.setNoRepair();
         this.maxDamage = damage;
     }
-    public ItemCraftingDurabilityBase(String modid, String name, int damage, String information) {
-        this(modid, name, damage);
+    public ItemCraftingDurabilityBase(String name, int damage, String information) {
+        this(name, damage);
         this.information = information;
     }
-    public ItemCraftingDurabilityBase(String modid, String name, int damage, boolean displayDurability) {
-        this(modid, name, damage);
+    public ItemCraftingDurabilityBase(String name, int damage, boolean displayDurability) {
+        this(name, damage);
         this.infoDamage = displayDurability;
     }
 
@@ -59,5 +60,9 @@ public class ItemCraftingDurabilityBase extends ItemBase {
         if (infoDamage && currentDamage != 0) {
             tooltip.add(ChatFormatting.BLUE + "Durability: " + ChatFormatting.GOLD + currentDamage + "/" + maxDamage);
         }
+    }
+
+    public void setModid(String modid) {
+        this.modid = modid;
     }
 }

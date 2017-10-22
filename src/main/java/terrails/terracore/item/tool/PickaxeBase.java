@@ -1,49 +1,49 @@
 package terrails.terracore.item.tool;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class PickaxeBase extends ItemPickaxe {
 
     protected String name;
     protected String modid;
-    protected boolean infoLevel;
+    protected boolean displayHarvestLevel;
 
-    public PickaxeBase(String modid, ToolMaterial material, String name) {
+    public PickaxeBase(ToolMaterial material, String name) {
         super(material);
         this.name = name;
-        this.modid = modid;
         setRegistryName(name);
         setUnlocalizedName(name);
         setCreativeTab(null);
     }
 
-    public PickaxeBase(String modid, ToolMaterial material, String name, boolean displayLevel){
-        this(modid, material, name);
-        this.infoLevel = displayLevel;
+    public PickaxeBase(ToolMaterial material, String name, boolean displayLevel){
+        this(material, name);
+        this.displayHarvestLevel = displayLevel;
     }
 
-/*
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-        int harvestLevel = getHarvestLevel(stack, "pickaxe", playerIn, Block.getBlockFromItem(stack.getItem()).getDefaultState());
+    public void setModid(String modid) {
+        this.modid = modid;
+    }
 
-        if(infoLevel){
-            if (harvestLevel == 0) {
-                tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Wood (" + harvestLevel + ")");
-            }
-            else if (harvestLevel == 1) {
-                tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Stone (" + harvestLevel + ")");
-            }
-            else if (harvestLevel == 2) {
-                tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Iron (" + harvestLevel + ")");
-            }
-            else if (harvestLevel == 3) {
-                tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Diamond (" + harvestLevel + ")");
-            }
-            else if (harvestLevel > 3) {
-                tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + ">Diamond (" + harvestLevel + ")");
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        int harvestLevel = getHarvestLevel(stack, "axe", null, null);
+
+        if (displayHarvestLevel && harvestLevel >= 0) {
+            switch (harvestLevel) {
+                case 0: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Wood (" + harvestLevel + ")");
+                case 1: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Stone (" + harvestLevel + ")");
+                case 2: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Iron (" + harvestLevel + ")");
+                case 3: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Diamond (" + harvestLevel + ")");
+                default: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + ">Diamond (" + harvestLevel + ")");
             }
         }
     }
-    */
 }

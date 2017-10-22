@@ -11,12 +11,21 @@ public class PotionBase extends Potion {
 
     private static ResourceLocation texture_location;
 
-    public PotionBase(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY, String modid) {
+    public PotionBase(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
         super(isBadEffectIn, liquidColorIn);
-        this.setRegistryName(new ResourceLocation(modid, name));
+        this.setRegistryName(name);
         this.setPotionName("potion." + name);
         this.setIconIndex(iconIndexX, iconIndexY);
+    }
+
+    public void setTextureLocation(ResourceLocation location) {
+        texture_location = location;
+    }
+    public void setDefaultTextureLocation(String modid) {
         texture_location = new ResourceLocation(modid, "textures/misc/potions.png");
+    }
+    public ResourceLocation getTextureLocation() {
+        return texture_location;
     }
 
     @Override

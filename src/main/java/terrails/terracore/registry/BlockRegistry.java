@@ -1,41 +1,39 @@
 package terrails.terracore.registry;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import terrails.terracore.Constants;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockRegistry {
 
-    private static Map<String, Block> blockMap = new HashMap<>();
-    private static String modID;
+    private static List<Block> blockList = new ArrayList<>();
 
-    public static void setBlockMap(Map<String, Block> map, String modName) {
-        blockMap = map;
-        modID = modName;
+    public static void setBlockList(List<Block> customList) {
+        blockList = customList;
     }
-    public static Map<String, Block> getBlockMap() {
-        return blockMap;
+
+    public static List<Block> getBlockList() {
+        return blockList;
     }
+
     public static Block[] getBlocks() {
-        return getBlockMap().values().toArray(new Block[getBlockMap().size()]);
+        return getBlockList().toArray(new Block[getBlockList().size()]);
     }
 
-    public static Block addBlock(String key, Block block) {
-        getBlockMap().put(key, block);
+    public static <T extends Block> Block addBlock(T block) {
+        getBlockList().add(block);
         return block;
     }
+
     public static Block getBlock(String blockName) {
-        for (Map.Entry<String, Block> entry : getBlockMap().entrySet()) {
-            String key = entry.getKey();
-            Block value = entry.getValue();
-            if (key.equals(blockName)) {
-                return value;
+        for (Block block : getBlocks()) {
+            if (block.getRegistryName() != null && block.getRegistryName().getResourcePath().contains(blockName)) {
+                return block;
             }
         }
-        Constants.getLogger(modID).error(blockName + ", is an invalid block name, please report to mod author! (dead bush given to prevent a crash)");
-        return Blocks.DEADBUSH;
+        Constants.getLogger("TerraCore Block Registry").info("There was an error with " + blockName + ", report to github!");
+        return null;
     }
 }

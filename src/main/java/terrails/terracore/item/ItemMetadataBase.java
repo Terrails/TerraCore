@@ -11,10 +11,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemMetadataBase extends Item {
 
     private int valuesLenght;
+    private String modid;
 
-    public ItemMetadataBase(String modid, String name, int valuesLenght) {
+    public ItemMetadataBase(String name, int valuesLenght) {
         setUnlocalizedName(name);
-        setRegistryName(new ResourceLocation(modid, name));
+     //   setRegistryName(new ResourceLocation(modid, name));
+        setRegistryName(name);
         setHasSubtypes(true);
         this.valuesLenght = valuesLenght;
     }
@@ -29,5 +31,9 @@ public class ItemMetadataBase extends Item {
         {
             subItems.add(new ItemStack(itemIn, 1, i));
         }
+    }
+
+    public void setModid(String modid) {
+        this.modid = modid;
     }
 }
