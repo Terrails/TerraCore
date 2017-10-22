@@ -1,7 +1,7 @@
 package terrails.terracore.item;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -52,7 +52,7 @@ public class ItemCraftingDurabilityBase extends ItemBase {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         int currentDamage = maxDamage - getDamage(stack);
         if (information != null) {
             tooltip.add(information);

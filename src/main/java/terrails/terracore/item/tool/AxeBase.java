@@ -3,7 +3,7 @@ package terrails.terracore.item.tool;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import terrails.terracore.item.ItemBase;
@@ -41,8 +41,8 @@ public class AxeBase extends ItemBase {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        int harvestLevel = getHarvestLevel(stack, "axe", null, null);
+    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+        int harvestLevel = getHarvestLevel(stack, "axe", playerIn, null);
 
         if (displayHarvestLevel && harvestLevel >= 0) {
             switch (harvestLevel) {

@@ -1,7 +1,7 @@
 package terrails.terracore.item.tool;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -34,8 +34,8 @@ public class ShovelBase extends ItemSpade {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        int harvestLevel = getHarvestLevel(stack, "axe", null, null);
+    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+        int harvestLevel = getHarvestLevel(stack, "axe", playerIn, null);
 
         if (displayHarvestLevel && harvestLevel >= 0) {
             switch (harvestLevel) {
