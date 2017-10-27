@@ -141,10 +141,11 @@ public class TileEntityTank extends TileEntityBase implements ITickable {
         EnumFacing[] enumFacings = ArrayUtils.addAll(inputArray, outputArray);
         if (allSides && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
-        for (EnumFacing enumFacing : enumFacings)
-            if (facing == enumFacing)
-                if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-                    return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
+        else if (enumFacings != null && inputArray != null && outputArray != null)
+            for (EnumFacing enumFacing : enumFacings)
+                if (facing == enumFacing)
+                    if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                        return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
         return super.getCapability(capability, facing);
     }
 }
