@@ -1,4 +1,4 @@
-package terrails.terracore.api;
+package terrails.terracore.registry;
 
 import net.minecraft.block.Block;
 
