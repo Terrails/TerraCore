@@ -14,18 +14,15 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava { sourceCompatibility = targetCompatibility = '1.8' }
 
-version = MC_VERSION + "-" + MOD_VERSION
+version = "1.11" + "-" + getVersions("MOD_VERSION")
 group = "terrails.terracore"
 archivesBaseName = "TerraCore"
 
 
 minecraft {
-    version = MC_VERSION + "-" + FORGE_VERSION
-    mappings = MCP_MAPPINGS
+    version = "1.11.2" + "-" + "13.20.1.2510"
+    mappings = "stable_32"
     runDir = "run"
-
-    replace "@VERSION@", MOD_VERSION
-    replaceIn "Constants.java"
 }
 
 apply plugin: 'maven-publish'
@@ -58,5 +55,26 @@ processResources {
         
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+String getVersions(String type) {
+    String major = "0"
+    String revision = "0"
+    String patch = "0"
+
+    String prefix = "public static final String $type = \""
+    File file = file("src/main/java/terrails/terracore/Constants.java")
+    file.eachLine { String s ->
+        s = s.trim()
+        if (s.startsWith(prefix)) {
+            s = s.substring(prefix.length(), s.length() - 2)
+            String[] pts = s.split("\\.")
+
+            major = pts[0]
+            revision = pts[1]
+            patch = pts[2]
+        }
+        return "$major.$revision.$patch"
     }
 }
