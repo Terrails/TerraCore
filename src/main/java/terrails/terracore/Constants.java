@@ -1,7 +1,5 @@
 package terrails.terracore;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
