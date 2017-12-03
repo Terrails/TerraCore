@@ -14,15 +14,18 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava { sourceCompatibility = targetCompatibility = '1.8' }
 
-
-version = "1.12" + "-" + getVersions('MOD_VERSION')
+version = "1.12" + "-" + getVersions('VERSION')
 group = "terrails.terracore"
 archivesBaseName = "TerraCore"
 
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
 
 minecraft {
-    version = "1.12.2" + "-" + "14.23.0.2512"
-    mappings = "snapshot_20170807"
+    version = "1.12.2" + "-" + "14.23.1.2559"
+	mappings = "snapshot_20171003"
     runDir = "run"
 }
 
@@ -50,6 +53,7 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
+        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
@@ -74,6 +78,6 @@ String getVersions(String type) {
             revision = pts[1]
             patch = pts[2]
         }
+        return "$major.$revision.$patch"
     }
-    return "$major.$revision.$patch"
 }

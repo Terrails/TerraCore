@@ -7,7 +7,7 @@ public class Constants {
 
     public static final String MOD_ID = "terracore";
     public static final String MOD_NAME = "TerraCore";
-    public static final String MOD_VERSION = "2.1.4";
+    public static final String VERSION = "2.1.4";
 
     public static final String MC_VERSION = "1.12.2";
 
