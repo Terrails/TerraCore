@@ -9,7 +9,7 @@ import terrails.terracore.proxies.IProxy;
 
 @Mod(modid = Constants.MOD_ID,
         name = Constants.MOD_NAME,
-        version = Constants.MOD_VERSION,
+        version = Constants.VERSION,
         acceptedMinecraftVersions = Constants.MC_VERSION)
 public class TerraCore {
     @SidedProxy(clientSide = Constants.CLIENT_PROXY, serverSide = Constants.SERVER_PROXY)
