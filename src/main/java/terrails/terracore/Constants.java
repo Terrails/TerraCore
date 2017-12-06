@@ -12,7 +12,7 @@ public class Constants {
     public static final String MC_VERSION = "1.12.2";
 
     public static final String CLIENT_PROXY = "terrails.terracore.proxies.ClientProxy";
-    public static final String SERVER_PROXY = "terrails.terracore.proxies.ClientProxy";
+    public static final String SERVER_PROXY = "terrails.terracore.proxies.ServerProxy";
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
     public static Logger getLogger(String name) {

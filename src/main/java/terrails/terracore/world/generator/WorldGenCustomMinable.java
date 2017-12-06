@@ -23,88 +23,34 @@ public class WorldGenCustomMinable extends WorldGenerator {
         this.blockToReplace = BlockMatcher.forBlock(blockToReplace);
     }
 
-
     @Override
     public boolean generate(World world, Random rand, BlockPos pos) {
-        int x = pos.getX() + 8;
-        int y = pos.getY() + 8;
-        int z = pos.getZ() + 8;
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
 
-        if (veinSize > 4) {
+        if (veinSize < 4) {
+            return generateSmallVein(world, rand, x, y, z);
+        } else {
             WorldGenerator generate = new WorldGenMinable(oreToGenerate, veinSize, blockToReplace);
-            generate.generate(world, rand, pos);
+            return generate.generate(world, rand, pos);
         }
-        else if(veinSize <= 4) {
-            IBlockState blockState = world.getBlockState(new BlockPos(x, y, z));
-            if (blockState.getBlock().isReplaceableOreGen(blockState, world, new BlockPos(x, y, z), blockToReplace)) {
-                generateSmallVein(world, rand, x, y, z);}
-
-        }
-        return false;
     }
 
     private boolean generateSmallVein(World world, Random random, int x, int y, int z) {
-        boolean r = world.setBlockState(new BlockPos(x, y, z), oreToGenerate, 2);
-
-        for (int i = 1; i < veinSize; i++) {
-            int posX = x + random.nextInt(2);
-            int posY = y + random.nextInt(2);
-            int posZ = z + random.nextInt(2);
-            r |= world.setBlockState(new BlockPos(posX, posY, posZ), oreToGenerate, 2);
-        }
-        return r;
-    }
-    private boolean generateNormal(World worldIn, Random rand, BlockPos position) {
-        if(veinSize >= 4) {
-            float f = rand.nextFloat() * (float) Math.PI;
-            double d0 = (double) ((float) (position.getX() + 8) + MathHelper.sin(f) * (float) this.veinSize / 8.0F);
-            double d1 = (double) ((float) (position.getX() + 8) - MathHelper.sin(f) * (float) this.veinSize / 8.0F);
-            double d2 = (double) ((float) (position.getZ() + 8) + MathHelper.cos(f) * (float) this.veinSize / 8.0F);
-            double d3 = (double) ((float) (position.getZ() + 8) - MathHelper.cos(f) * (float) this.veinSize / 8.0F);
-            double d4 = (double) (position.getY() + rand.nextInt(3) - 2);
-            double d5 = (double) (position.getY() + rand.nextInt(3) - 2);
-
-            for (int i = 0; i < this.veinSize; ++i) {
-                float f1 = (float) i / (float) this.veinSize;
-                double d6 = d0 + (d1 - d0) * (double) f1;
-                double d7 = d4 + (d5 - d4) * (double) f1;
-                double d8 = d2 + (d3 - d2) * (double) f1;
-                double d9 = rand.nextDouble() * (double) this.veinSize / 16.0D;
-                double d10 = (double) (MathHelper.sin((float) Math.PI * f1) + 1.0F) * d9 + 1.0D;
-                double d11 = (double) (MathHelper.sin((float) Math.PI * f1) + 1.0F) * d9 + 1.0D;
-                int j = MathHelper.floor(d6 - d10 / 2.0D);
-                int k = MathHelper.floor(d7 - d11 / 2.0D);
-                int l = MathHelper.floor(d8 - d10 / 2.0D);
-                int i1 = MathHelper.floor(d6 + d10 / 2.0D);
-                int j1 = MathHelper.floor(d7 + d11 / 2.0D);
-                int k1 = MathHelper.floor(d8 + d10 / 2.0D);
-
-                for (int l1 = j; l1 <= i1; ++l1) {
-                    double d12 = ((double) l1 + 0.5D - d6) / (d10 / 2.0D);
-
-                    if (d12 * d12 < 1.0D) {
-                        for (int i2 = k; i2 <= j1; ++i2) {
-                            double d13 = ((double) i2 + 0.5D - d7) / (d11 / 2.0D);
-
-                            if (d12 * d12 + d13 * d13 < 1.0D) {
-                                for (int j2 = l; j2 <= k1; ++j2) {
-                                    double d14 = ((double) j2 + 0.5D - d8) / (d10 / 2.0D);
-
-                                    if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D) {
-                                        BlockPos blockpos = new BlockPos(l1, i2, j2);
-
-                                        IBlockState state = worldIn.getBlockState(blockpos);
-                                        if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, this.blockToReplace)) {
-                                            worldIn.setBlockState(blockpos, this.oreToGenerate, 2);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+        boolean value = false;
+        int newX = x + 8;
+        int newZ = z + 8;
+        IBlockState blockState = world.getBlockState(new BlockPos(newX, y, newZ));
+        if (blockState.getBlock().isReplaceableOreGen(blockState, world, new BlockPos(x, y, z), blockToReplace)) {
+            for (int i = 0; i < veinSize; i++) {
+                int posX = newX + random.nextInt(2);
+                int posY = y + random.nextInt(2);
+                int posZ = newZ + random.nextInt(2);
+                world.setBlockState(new BlockPos(posX, posY, posZ), oreToGenerate, 2);
+                value = true;
             }
         }
-        return true;
+        return value;
     }
 }

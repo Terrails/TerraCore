@@ -24,23 +24,6 @@ minecraft {
     runDir = "run"
 }
 
-apply plugin: 'maven-publish'
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId 'terrails'
-            artifactId 'TerraCore'
-
-            from components.java
-        }
-    }
-}
-publishing {
-    repositories {
-        mavenLocal()
-    }
-}
-
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -48,7 +31,6 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
