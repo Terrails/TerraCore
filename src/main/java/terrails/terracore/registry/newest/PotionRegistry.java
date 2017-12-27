@@ -6,16 +6,14 @@ import java.util.List;
 
 public class PotionRegistry {
 
-    private static List<Potion> potionList;
-
-    public PotionRegistry(List<Potion> theList) {
-        potionList = theList;
-    }
+    protected static List<Potion> potionList;
 
     public static List<Potion> getList() {
+        if (potionList == null) {
+            throw new RuntimeException("TerraCore ItemRegistry list is null");
+        }
         return potionList;
     }
-
     public static Potion[] getPotions() {
         return getList().toArray(new Potion[getList().size()]);
     }

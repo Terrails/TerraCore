@@ -6,13 +6,12 @@ import java.util.List;
 
 public class BlockRegistry {
 
-    private static List<Block> blockList;
-
-    public BlockRegistry(List<Block> theList) {
-        blockList = theList;
-    }
+    protected static List<Block> blockList;
 
     public static List<Block> getList() {
+        if (blockList == null) {
+            throw new RuntimeException("TerraCore BlockRegistry list is null");
+        }
         return blockList;
     }
 

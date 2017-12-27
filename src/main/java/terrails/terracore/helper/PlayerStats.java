@@ -36,10 +36,10 @@ public class PlayerStats {
         }
     }
 
-    public static void setMaxHealth(EntityPlayer player, UUID modifierUUID, double health) {
+    public static void setMaxHealth(EntityPlayer player, UUID modifierUUID, double health, String name) {
         if (player != null) {
             removeMaxHealthModifier(player, modifierUUID);
-            getMaxHealthAttribute(player).applyModifier(new AttributeModifier(modifierUUID, "StatsKeeper HP", health/* - getAttribute(player).getBaseValue()*/, 0));
+            getMaxHealthAttribute(player).applyModifier(new AttributeModifier(modifierUUID, name, health, 0));
             player.setHealth(player.getMaxHealth());
         }
     }

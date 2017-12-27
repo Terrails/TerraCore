@@ -6,13 +6,12 @@ import java.util.List;
 
 public class ItemRegistry {
 
-    private static List<Item> itemList;
-
-    public ItemRegistry(List<Item> theList) {
-        itemList = theList;
-    }
+    protected static List<Item> itemList;
 
     public static List<Item> getList() {
+        if (itemList == null) {
+            throw new RuntimeException("TerraCore ItemRegistry list is null");
+        }
         return itemList;
     }
 
