@@ -34,12 +34,12 @@ public class BlockHelper {
                 if (!blockPos.equals(pos) || currentPos) {
                     if (wall) {
                         if (Math.abs(x) == radius || Math.abs(z) == radius) {
-                            if (world.getBlockState(blockPos).equals(block)) {
+                            if (world.getBlockState(blockPos).getBlock().equals(block.getBlock())) {
                                 value = true;
                             } else return false;
                         }
                     } else {
-                        if (world.getBlockState(blockPos).equals(block)) {
+                        if (world.getBlockState(blockPos).getBlock().equals(block.getBlock())) {
                             value = true;
                         } else return false;
                     }
@@ -56,12 +56,12 @@ public class BlockHelper {
                 if (!blockPos.equals(pos) || currentPos) {
                     if (wall) {
                         if (Math.abs(x) == radius || Math.abs(z) == radius) {
-                            if (world.getBlockState(blockPos).equals(block)) {
+                            if (world.getBlockState(blockPos).getBlock().equals(block.getBlock())) {
                                 return true;
                             }
                         }
                     } else {
-                        if (world.getBlockState(blockPos).equals(block)) {
+                        if (world.getBlockState(blockPos).getBlock().equals(block.getBlock())) {
                             return true;
                         }
                     }

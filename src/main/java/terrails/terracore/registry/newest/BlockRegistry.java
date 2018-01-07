@@ -19,7 +19,7 @@ public class BlockRegistry {
         return getList().toArray(new Block[getList().size()]);
     }
 
-    public static  <T extends Block> T add(T block) {
+    public static <T extends Block> T add(T block) {
         getList().add(block);
         return block;
     }
