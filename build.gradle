@@ -10,6 +10,7 @@ buildscript {
 }
 /**───────────────────────────────────────────────────────────────────────────────────**/
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven'
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava { sourceCompatibility = targetCompatibility = '1.8' }
@@ -36,6 +37,14 @@ processResources {
         
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://" + (System.getenv("local_maven") != null ? System.getenv("local_maven") : System.getenv("bamboo_local_maven")))
+        }
     }
 }
 
