@@ -21,7 +21,7 @@ archivesBaseName = "TerraCore"
 
 minecraft {
     version = "1.12.2" + "-" + "14.23.2.2611"
-	mappings = "snapshot_20171003"
+    mappings = "snapshot_20171003"
     runDir = "run"
 }
 
@@ -42,6 +42,7 @@ processResources {
 
 uploadArchives {
     repositories {
+        //noinspection GroovyAssignabilityCheck
         mavenDeployer {
             repository(url: "file://" + (System.getenv("local_maven") != null ? System.getenv("local_maven") : System.getenv("bamboo_local_maven")))
         }
