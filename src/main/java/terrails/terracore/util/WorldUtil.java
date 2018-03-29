@@ -191,54 +191,6 @@ public class WorldUtil {
             }
         }
 
-        private Tuple<List<BlockPos>, List<BlockPos>> getPosition() {
-            List<BlockPos> placeBlocks = Lists.newArrayList();
-            List<BlockPos> outsideBlocks = Lists.newArrayList();
-
-            int radiusX = this.radiusX;
-            int radiusZ = this.radiusZ;
-            int radiusY = kind == PlacementProperties.Kind.FLAT ? 0 : this.radiusY;
-
-            int radiusYn = facing == EnumFacing.UP ? 0 : radiusY;
-            int radiusYm = facing == EnumFacing.DOWN ? 0 : radiusY;
-
-            BlockPos startPos = pos.add(-radiusX, -radiusYn, -radiusZ);
-            BlockPos endPos = pos.add(radiusX, radiusYm, radiusZ);
-
-            for (BlockPos pos : BlockPos.getAllInBoxMutable(startPos, endPos)) {
-                if (kind == PlacementProperties.Kind.HOLLOW) {
-                    boolean a = Math.abs(pos.getX() - this.pos.getX()) == Math.abs(radiusX);
-                    boolean b = Math.abs(pos.getY() - this.pos.getY()) == Math.abs(radiusY);
-                    boolean c = Math.abs(pos.getZ() - this.pos.getZ()) == Math.abs(radiusZ);
-
-                    if (a || b || c) {
-                        placeBlocks.add(pos);
-                    } else {
-                        outsideBlocks.add(pos);
-                    }
-                } else if (kind == PlacementProperties.Kind.WALL) {
-                    boolean a = Math.abs(pos.getX() - this.pos.getX()) == Math.abs(radiusX);
-                    boolean b = Math.abs(pos.getZ() - this.pos.getZ()) == Math.abs(radiusZ);
-
-                    if (a || b) {
-                        placeBlocks.add(pos);
-                    } else {
-                        outsideBlocks.add(pos);
-                    }
-                } else if (kind == PlacementProperties.Kind.FLAT) {
-                    if (pos.getY() == this.pos.getY()) {
-                        placeBlocks.add(pos);
-                    } else {
-                        outsideBlocks.add(pos);
-                    }
-                } else if (kind == PlacementProperties.Kind.NORMAL) {
-                    placeBlocks.add(pos);
-                }
-
-
-            }
-            return new Tuple<>(placeBlocks, outsideBlocks);
-        }
         private Tuple<List<BlockPos>, List<BlockPos>> getPositions() {
             int radiusX = this.radiusX;
             int radiusZ = this.radiusZ;
@@ -424,47 +376,6 @@ public class WorldUtil {
             boolean i = ((isAir && this.blockType == CheckerProperties.BlockType.AIR) || (isSolid && this.blockType == CheckerProperties.BlockType.SOLID)) || blockType == CheckerProperties.BlockType.ALL;
             return (blockStates != null && Arrays.stream(blockStates).map(state1 -> equalsState(state1, state)).findAny().orElse(Boolean.FALSE)) || i;
         }
-        private List<BlockPos> getPos() {
-            List<BlockPos> positions = Lists.newArrayList();
-            int radiusX = this.radiusX;
-            int radiusZ = this.radiusZ;
-            int radiusY = kind == CheckerProperties.Kind.FLAT ? 0 : this.radiusY;
-
-            int radiusYn = facing == EnumFacing.UP ? 0 : radiusY;
-            int radiusYm = facing == EnumFacing.DOWN ? 0 : radiusY;
-
-            BlockPos startPos = pos.add(-radiusX, -radiusYn, -radiusZ);
-            BlockPos endPos = pos.add(radiusX, radiusYm, radiusZ);
-
-            for (BlockPos pos : BlockPos.getAllInBoxMutable(startPos, endPos)) {
-                if (kind == CheckerProperties.Kind.HOLLOW) {
-                    boolean a = Math.abs(pos.getX() - this.pos.getX()) == Math.abs(radiusX);
-                    boolean b = Math.abs(pos.getY() - this.pos.getY()) == Math.abs(radiusY);
-                    boolean c = Math.abs(pos.getZ() - this.pos.getZ()) == Math.abs(radiusZ);
-
-                    if (a || b || c) {
-                        positions.add(pos);
-                    }
-                } else if (kind == CheckerProperties.Kind.WALL) {
-                    boolean a = Math.abs(pos.getX() - this.pos.getX()) == Math.abs(radiusX);
-                    boolean b = Math.abs(pos.getZ() - this.pos.getZ()) == Math.abs(radiusZ);
-
-                    if (a || b) {
-                        positions.add(pos);
-                    }
-                } else if (kind == CheckerProperties.Kind.FLAT) {
-                    if (pos.getY() == this.pos.getY()) {
-                        positions.add(pos);
-                    }
-                } else if (kind == CheckerProperties.Kind.NORMAL) {
-                    positions.add(pos);
-                }
-
-
-            }
-            return positions;
-        }
-
         private List<BlockPos> getPositions() {
             int radiusX = this.radiusX;
             int radiusZ = this.radiusZ;
