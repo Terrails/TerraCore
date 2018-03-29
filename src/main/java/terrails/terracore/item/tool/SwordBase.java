@@ -1,21 +1,21 @@
 package terrails.terracore.item.tool;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
 
+@SuppressWarnings("ConstantConditions")
 public class SwordBase extends ItemSword {
 
-    protected String name;
-    protected String modid;
+    protected String modId;
 
-    public SwordBase(ToolMaterial material, String name) {
+    public SwordBase(ToolMaterial material, String modId) {
         super(material);
-        this.name = name;
-        setRegistryName(name);
-        setUnlocalizedName(name);
-        setCreativeTab(null);
+        this.modId = modId;
+        this.setCreativeTab(null);
     }
 
-    public void setModid(String modid) {
-        this.modid = modid;
+    @Override
+    public Item setUnlocalizedName(String name) {
+        return super.setUnlocalizedName(modId + "." + name);
     }
 }

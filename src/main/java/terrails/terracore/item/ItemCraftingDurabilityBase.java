@@ -10,40 +10,32 @@ import java.util.List;
 
 public class ItemCraftingDurabilityBase extends ItemBase {
 
-    private String information;
-    private boolean infoDamage;
-    private int maxDamage;
-    protected String modid;
+    protected String information;
+    protected boolean displayDurability;
 
-    public ItemCraftingDurabilityBase(String name, int damage) {
-        super(name);
-        this.setMaxDamage(damage-1);
+    private int maxDamage;
+
+    public ItemCraftingDurabilityBase(String modId, int damage) {
+        super(modId);
+        this.setMaxDamage(damage - 1);
         this.setMaxStackSize(1);
         this.setContainerItem(this);
         this.setNoRepair();
         this.maxDamage = damage;
     }
-    public ItemCraftingDurabilityBase(String name, int damage, String information) {
-        this(name, damage);
-        this.information = information;
-    }
-    public ItemCraftingDurabilityBase(String name, int damage, boolean displayDurability) {
-        this(name, damage);
-        this.infoDamage = displayDurability;
-    }
 
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         ItemStack leStack = stack.copy();
-        leStack.setItemDamage(leStack.getItemDamage()+1);
+        leStack.setItemDamage(leStack.getItemDamage() + 1);
         return setStackSize(leStack, 1);
     }
-    public static ItemStack setStackSize(ItemStack stack, int size){
-        if(size <= 0){
-            if (stack != null && !stack.isEmpty()){
+
+    public static ItemStack setStackSize(ItemStack stack, int size) {
+        if (size <= 0) {
+            if (stack != null && !stack.isEmpty()) {
                 return stack.getItem().getContainerItem(stack);
-            }
-            else{
+            } else {
                 return ItemStack.EMPTY;
             }
         }
@@ -57,12 +49,8 @@ public class ItemCraftingDurabilityBase extends ItemBase {
         if (information != null) {
             tooltip.add(information);
         }
-        if (infoDamage && currentDamage != 0) {
+        if (displayDurability && currentDamage != 0) {
             tooltip.add(ChatFormatting.BLUE + "Durability: " + ChatFormatting.GOLD + currentDamage + "/" + maxDamage);
         }
-    }
-
-    public void setModid(String modid) {
-        this.modid = modid;
     }
 }

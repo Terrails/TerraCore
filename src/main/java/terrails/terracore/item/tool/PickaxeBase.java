@@ -1,49 +1,21 @@
 package terrails.terracore.item.tool;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
+@SuppressWarnings("ConstantConditions")
 public class PickaxeBase extends ItemPickaxe {
 
-    protected String name;
-    protected String modid;
-    protected boolean displayHarvestLevel;
+    private final String modId;
 
-    public PickaxeBase(ToolMaterial material, String name) {
+    public PickaxeBase(ToolMaterial material, String modId) {
         super(material);
-        this.name = name;
-        setRegistryName(name);
-        setUnlocalizedName(name);
-        setCreativeTab(null);
-    }
-
-    public PickaxeBase(ToolMaterial material, String name, boolean displayLevel){
-        this(material, name);
-        this.displayHarvestLevel = displayLevel;
-    }
-
-    public void setModid(String modid) {
-        this.modid = modid;
+        this.modId = modId;
+        this.setCreativeTab(null);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        int harvestLevel = getHarvestLevel(stack, "axe", null, null);
-
-        if (displayHarvestLevel && harvestLevel >= 0) {
-            switch (harvestLevel) {
-                case 0: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Wood (" + harvestLevel + ")");
-                case 1: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Stone (" + harvestLevel + ")");
-                case 2: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Iron (" + harvestLevel + ")");
-                case 3: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + "Diamond (" + harvestLevel + ")");
-                default: tooltip.add(ChatFormatting.BLUE + "Mining Level: " + ChatFormatting.GOLD + ">Diamond (" + harvestLevel + ")");
-            }
-        }
+    public Item setUnlocalizedName(String name) {
+        return super.setUnlocalizedName(modId + "." + name);
     }
 }

@@ -8,15 +8,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
-import terrails.terracore.block.BlockBase;
 
 import javax.annotation.Nullable;
 
 public abstract class BlockTileEntity<TE extends TileEntity> extends BlockBase {
 
-    public BlockTileEntity(Material materialIn, String name) {
-        super(materialIn, name);
+    public BlockTileEntity(Material materialIn, String modId) {
+        super(materialIn, modId);
     }
 
     @Override

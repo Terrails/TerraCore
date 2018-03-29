@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.capability.wrappers.BlockLiquidWrapper;
 
 import java.util.*;
 
-public class WorldUtil {
+public class WorldUtils {
 
     public static boolean equalsState(IBlockState state1, IBlockState state2) {
         Block block1 = state1.getBlock();
@@ -24,8 +24,7 @@ public class WorldUtil {
         return (block1.getMetaFromState(state1) == block2.getMetaFromState(state2)) && (block1 == block2);
     }
     public static boolean isReplaceable(IBlockState state) {
-        Block block = state.getBlock();
-        return block.equals(Blocks.AIR) || state.getMaterial().isReplaceable() || isLiquid(state);
+        return state.getMaterial().isReplaceable() || isLiquid(state);
     }
     public static boolean isLiquid(IBlockState state) {
         return state instanceof BlockLiquid || state instanceof BlockLiquidWrapper || state instanceof IFluidBlock || state.getMaterial().isLiquid();
@@ -152,7 +151,7 @@ public class WorldUtil {
                         final double zn = nextZn;
                         nextZn = (z + 1) * (1 / radiusZ);
 
-                        double distanceSq = squared(xn, yn, zn);
+                        double distanceSq = MathUtils.squared(xn, yn, zn);
                         if (distanceSq > 1) {
                             if (z == 0) {
                                 if (y == 0) {
@@ -164,7 +163,7 @@ public class WorldUtil {
                         }
 
                         IBlockState state = blockState;
-                        if (squared(nextXn, yn, zn) <= 1 && squared(xn, nextYn, zn) <= 1 && squared(xn, yn, nextZn) <= 1) {
+                        if (MathUtils.squared(nextXn, yn, zn) <= 1 && MathUtils.squared(xn, nextYn, zn) <= 1 && MathUtils.squared(xn, yn, nextZn) <= 1) {
                             if (innerState != null && innerState.getMaterial() != Material.AIR) {
                                 state = innerState;
                             } else {
@@ -206,45 +205,45 @@ public class WorldUtil {
                     for (int z = -radiusZ; z <= radiusZ; z++) {
                         BlockPos pos = this.pos.add(x, y, z);
 
-                        if (kind == PlacementProperties.Kind.HOLLOW) {
-                            boolean a = Math.abs(x) == Math.abs(radiusX);
-                            boolean b = y < 0 ? Math.abs(y) == Math.abs(radiusYs) : Math.abs(y) == Math.abs(radiusYe);
-                            boolean c = Math.abs(z) == Math.abs(radiusZ);
+                        switch (kind) {
+                            case HOLLOW: {
+                                boolean a = Math.abs(x) == Math.abs(radiusX);
+                                boolean b = y < 0 ? Math.abs(y) == Math.abs(radiusYs) : Math.abs(y) == Math.abs(radiusYe);
+                                boolean c = Math.abs(z) == Math.abs(radiusZ);
 
-                            if (a || b || c) {
-                                placeBlocks.add(pos);
-                            } else if (deleteBlocks == PlacementProperties.DeleteBlocks.ALL) {
-                                outsideBlocks.add(pos);
+                                if (a || b || c) {
+                                    placeBlocks.add(pos);
+                                } else if (deleteBlocks == PlacementProperties.DeleteBlocks.ALL) {
+                                    outsideBlocks.add(pos);
+                                }
+                                break;
                             }
-                        } else if (kind == PlacementProperties.Kind.WALL) {
-                            boolean a = Math.abs(x) == Math.abs(radiusX);
-                            boolean b = Math.abs(z) == Math.abs(radiusZ);
+                            case WALL: {
+                                boolean a = Math.abs(x) == Math.abs(radiusX);
+                                boolean b = Math.abs(z) == Math.abs(radiusZ);
 
-                            if (a || b) {
-                                placeBlocks.add(pos);
-                            } else if (deleteBlocks == PlacementProperties.DeleteBlocks.ALL) {
-                                outsideBlocks.add(pos);
+                                if (a || b) {
+                                    placeBlocks.add(pos);
+                                } else if (deleteBlocks == PlacementProperties.DeleteBlocks.ALL) {
+                                    outsideBlocks.add(pos);
+                                }
+                                break;
                             }
-                        } else if (kind == PlacementProperties.Kind.FLAT) {
-                            if (pos.getY() == this.pos.getY()) {
+                            case FLAT:
+                                if (pos.getY() == this.pos.getY()) {
+                                    placeBlocks.add(pos);
+                                } else if (deleteBlocks == PlacementProperties.DeleteBlocks.ALL) {
+                                    outsideBlocks.add(pos);
+                                }
+                                break;
+                            case NORMAL:
                                 placeBlocks.add(pos);
-                            } else if (deleteBlocks == PlacementProperties.DeleteBlocks.ALL) {
-                                outsideBlocks.add(pos);
-                            }
-                        } else if (kind == PlacementProperties.Kind.NORMAL) {
-                            placeBlocks.add(pos);
+                                break;
                         }
                     }
                 }
             }
             return new Tuple<>(placeBlocks, outsideBlocks);
-        }
-        private double squared(double... args) {
-            double squared = 0;
-            for (double n : args) {
-                squared += (n * n);
-            }
-            return squared;
         }
     }
     public static class Checker {
@@ -390,27 +389,34 @@ public class WorldUtil {
                     for (int z = -radiusZ; z <= radiusZ; z++) {
                         BlockPos pos = this.pos.add(x, y, z);
 
-                        if (kind == CheckerProperties.Kind.HOLLOW) {
-                            boolean a = Math.abs(x) == Math.abs(radiusX);
-                            boolean b = y < 0 ? Math.abs(y) == Math.abs(radiusYs) : Math.abs(y) == Math.abs(radiusYe);
-                            boolean c = Math.abs(z) == Math.abs(radiusZ);
+                        switch (kind) {
+                            case HOLLOW: {
+                                boolean a = Math.abs(x) == Math.abs(radiusX);
+                                boolean b = y < 0 ? Math.abs(y) == Math.abs(radiusYs) : Math.abs(y) == Math.abs(radiusYe);
+                                boolean c = Math.abs(z) == Math.abs(radiusZ);
 
-                            if (a || b || c) {
-                                positions.add(pos);
+                                if (a || b || c) {
+                                    positions.add(pos);
+                                }
+                                break;
                             }
-                        } else if (kind == CheckerProperties.Kind.WALL) {
-                            boolean a = Math.abs(x) == Math.abs(radiusX);
-                            boolean b = Math.abs(z) == Math.abs(radiusZ);
+                            case WALL: {
+                                boolean a = Math.abs(x) == Math.abs(radiusX);
+                                boolean b = Math.abs(z) == Math.abs(radiusZ);
 
-                            if (a || b) {
-                                positions.add(pos);
+                                if (a || b) {
+                                    positions.add(pos);
+                                }
+                                break;
                             }
-                        } else if (kind == CheckerProperties.Kind.FLAT) {
-                            if (pos.getY() == this.pos.getY()) {
+                            case FLAT:
+                                if (pos.getY() == this.pos.getY()) {
+                                    positions.add(pos);
+                                }
+                                break;
+                            case NORMAL:
                                 positions.add(pos);
-                            }
-                        } else if (kind == CheckerProperties.Kind.NORMAL) {
-                            positions.add(pos);
+                                break;
                         }
                     }
                 }

@@ -4,16 +4,15 @@ import net.minecraft.item.Item;
 
 public class ItemBase extends Item {
 
-    protected String name;
-    protected String modid;
+    private final String modId;
 
-    public ItemBase(String name) {
-        this.name = name;
-        setRegistryName(name);
-        setUnlocalizedName(name);
+    public ItemBase(String modId) {
+        this.modId = modId;
     }
 
-    public void setModid(String modid) {
-        this.modid = modid;
+    @Override
+    public Item setUnlocalizedName(String name) {
+        return super.setUnlocalizedName(modId + "." + name);
     }
+
 }

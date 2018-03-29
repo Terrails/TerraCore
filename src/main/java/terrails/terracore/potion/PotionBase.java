@@ -1,4 +1,4 @@
-package terrails.terracore.item;
+package terrails.terracore.potion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
@@ -9,22 +9,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PotionBase extends Potion {
 
-    private static ResourceLocation texture_location;
+    private ResourceLocation texture_location;
+    private final String modId;
 
-    public PotionBase(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
+    public PotionBase(String modId, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
         super(isBadEffectIn, liquidColorIn);
-        this.setRegistryName(name);
-        this.setPotionName("potion." + name);
+        this.modId = modId;
         this.setIconIndex(iconIndexX, iconIndexY);
     }
 
-    public void setTextureLocation(ResourceLocation location) {
+    protected void setTextureLocation(ResourceLocation location) {
         texture_location = location;
     }
-    public void setDefaultTextureLocation(String modid) {
+    protected void setDefaultTextureLocation(String modid) {
         texture_location = new ResourceLocation(modid, "textures/misc/potions.png");
     }
-    public ResourceLocation getTextureLocation() {
+    protected ResourceLocation getTextureLocation() {
         return texture_location;
     }
 
@@ -35,6 +35,11 @@ public class PotionBase extends Potion {
     @Override
     public boolean shouldRender(PotionEffect effect) {
         return true;
+    }
+
+    @Override
+    public Potion setPotionName(String name) {
+        return super.setPotionName("potion." + modId + "." + name);
     }
 
     @Override
