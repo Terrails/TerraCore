@@ -2,7 +2,6 @@ package terrails.terracore.item.tool;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
-import net.minecraft.util.ResourceLocation;
 
 @SuppressWarnings("ConstantConditions")
 public class AxeBase extends ItemAxe {

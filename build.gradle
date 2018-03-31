@@ -9,20 +9,23 @@ buildscript {
     }
 }
 /**───────────────────────────────────────────────────────────────────────────────────**/
-apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 sourceCompatibility = targetCompatibility = '1.8'
-compileJava { sourceCompatibility = targetCompatibility = '1.8' }
+sourceCompatibility = targetCompatibility = '1.8'
 
-version = "1.12" + "-" + getModVersion('VERSION')
-group = "terrails.terracore"
-archivesBaseName = "TerraCore"
+version = getMajorMC() + "-" + getVersion()
+group = "terrails" + "." + mod_name.toLowerCase()
+archivesBaseName = mod_name
 
 minecraft {
-    version = "1.12.2" + "-" + "14.23.2.2611"
-    mappings = "snapshot_20171003"
+    version = minecraft_version + "-" + forge_version
+	mappings = mappings_version
     runDir = "run"
+
+    replace "@VERSION@", project.version
+    replaceIn "Constants.java"
 }
 
 processResources {
@@ -42,29 +45,36 @@ processResources {
 
 uploadArchives {
     repositories {
-        //noinspection GroovyAssignabilityCheck
         mavenDeployer {
             repository(url: "file://" + (System.getenv("local_maven") != null ? System.getenv("local_maven") : System.getenv("bamboo_local_maven")))
         }
     }
 }
 
-String getModVersion(String type) {
-    String major = "0"
-    String revision = "0"
-    String patch = "0"
-    String prefix = "public static final String $type = \""
-    File file = file("src/main/java/terrails/terracore/Constants.java")
-    file.eachLine { String s ->
-        s = s.trim()
-        if (s.startsWith(prefix)) {
-            s = s.substring(prefix.length(), s.length() - 2)
-            String[] pts = s.split("\\.")
+String getVersion() {
+    String version = mod_version
+    String branch = project.hasProperty("branch") ? project.branch : ""
 
-            major = pts[0]
-            revision = pts[1]
-            patch = pts[2]
+    if(branch != "") {
+        version += "-" + branch
+
+        String buildNumber = getBuildNumber()
+        if(buildNumber != "") {
+            version += "." + buildNumber
         }
-        return "$major.$revision.$patch"
     }
+
+    return version
+}
+static String getBuildNumber() {
+    String buildNumber = System.getenv("BUILD_NUMBER") != null ? System.getenv("BUILD_NUMBER") : ""
+    if(buildNumber == "") {
+        buildNumber = System.getenv("bamboo_buildNumber") != null ? "." + System.getenv("bamboo_buildNumber") : ""
+    }
+    return buildNumber
+}
+
+@SuppressWarnings("GrMethodMayBeStatic")
+String getMajorMC() {
+    return minecraft_version.substring(0, minecraft_version.lastIndexOf("."))
 }
