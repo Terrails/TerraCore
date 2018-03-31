@@ -1,6 +1,7 @@
 package terrails.terracore.base;
 
 import com.google.common.collect.Maps;
+import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import terrails.terracore.registry.RegistryEventHandler;
@@ -23,8 +24,20 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         this.version = version;
     }
 
+    @SuppressWarnings("unchecked")
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
+
+        this.registerBlocks(getRegistry(SimpleRegistry.class, RegistryType.BLOCKS));
+        this.registerItems(getRegistry(SimpleRegistry.class, RegistryType.ITEMS));
+    }
+
+    public void registerBlocks(SimpleRegistry<Block> registry) {
+
+    }
+
+    public void registerItems(SimpleRegistry<Block> registry) {
+
     }
 
 
