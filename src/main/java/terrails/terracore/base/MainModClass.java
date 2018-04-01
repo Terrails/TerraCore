@@ -28,6 +28,9 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
 
+        addRegistry(SimpleRegistry.class, RegistryType.BLOCKS);
+        addRegistry(SimpleRegistry.class, RegistryType.ITEMS);
+
         this.registerBlocks(getRegistry(SimpleRegistry.class, RegistryType.BLOCKS));
         this.registerItems(getRegistry(SimpleRegistry.class, RegistryType.ITEMS));
     }
@@ -51,7 +54,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         if (registries == null) {
             registries = Maps.newHashMap();
         }
-        registries.put(type, registry.cast(SimpleRegistry.class));
+        registries.put(type, registry.cast(new SimpleRegistry<>()));
     }
 
     @Override
