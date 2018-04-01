@@ -23,12 +23,6 @@ public class SimpleRegistry<T extends IForgeRegistryEntry> {
         return entry;
     }
 
-    @SuppressWarnings("unchecked")
-    public RegistryType getRegistryType() {
-        Class<T> clazz = (Class<T>) getClass();
-        return RegistryType.getRegistryType(clazz);
-    }
-
     public T get(String string) {
         if (string.contains(":")) {
             ResourceLocation location = new ResourceLocation(string);

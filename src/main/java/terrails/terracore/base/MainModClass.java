@@ -2,12 +2,14 @@ package terrails.terracore.base;
 
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import terrails.terracore.registry.RegistryEventHandler;
 import terrails.terracore.registry.RegistryType;
 import terrails.terracore.registry.SimpleRegistry;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IRegistryEntry {
@@ -28,14 +30,15 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
 
-        addRegistry(SimpleRegistry.class, RegistryType.BLOCKS);
-        addRegistry(SimpleRegistry.class, RegistryType.ITEMS);
-
-        this.registerForgeEntries(getRegistry(SimpleRegistry.class, RegistryType.BLOCKS));
-        this.registerForgeEntries(getRegistry(SimpleRegistry.class, RegistryType.ITEMS));
+        Arrays.stream(RegistryType.values()).forEach(type -> addRegistry(SimpleRegistry.class, type));
+     //   addRegistry(SimpleRegistry.class, RegistryType.BLOCKS);
+    //    addRegistry(SimpleRegistry.class, RegistryType.ITEMS);
+        Arrays.stream(RegistryType.values()).forEach(type -> registerForgeEntries(getRegistry(SimpleRegistry.class, type), type));
+    //    this.registerForgeEntries(getRegistry(SimpleRegistry.class, RegistryType.BLOCKS));
+    //    this.registerForgeEntries(getRegistry(SimpleRegistry.class, RegistryType.ITEMS));
     }
 
-    public void registerForgeEntries(SimpleRegistry registry) {
+    public void registerForgeEntries(SimpleRegistry registry, RegistryType type) {
 
     }
 
@@ -50,7 +53,14 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         if (registries == null) {
             registries = Maps.newHashMap();
         }
-        registries.put(type, registry.cast(new SimpleRegistry<>()));
+        switch (type) {
+            case BLOCKS:
+                registries.put(type, registry.cast(new SimpleRegistry<Block>()));
+                break;
+            case ITEMS:
+                registries.put(type, registry.cast(new SimpleRegistry<Item>()));
+                break;
+        }
     }
 
     @Override
