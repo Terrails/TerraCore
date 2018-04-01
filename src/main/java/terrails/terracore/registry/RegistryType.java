@@ -1,5 +1,5 @@
 package terrails.terracore.registry;
 
 public enum RegistryType {
-    BLOCKS, ITEMS
+    BLOCK, ITEM, POTION, BIOME, SOUND_EVENT, ENCHANTMENT
 }

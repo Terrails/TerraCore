@@ -39,7 +39,12 @@ public class PotionBase extends Potion {
 
     @Override
     public Potion setPotionName(String name) {
-        return super.setPotionName("potion." + modId + "." + name);
+        return super.setPotionName(modId + "." + name);
+    }
+
+    @Override
+    public String getName() {
+        return "potion." + super.getName();
     }
 
     @Override
