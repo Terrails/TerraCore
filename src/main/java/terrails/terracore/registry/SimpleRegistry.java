@@ -1,6 +1,7 @@
 package terrails.terracore.registry;
 
 import com.google.common.collect.Lists;
+import jdk.nashorn.internal.ir.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -20,6 +21,12 @@ public class SimpleRegistry<T extends IForgeRegistryEntry> {
         }
         registryEntries.add(entry);
         return entry;
+    }
+
+    @SuppressWarnings("unchecked")
+    public RegistryType getRegistryType() {
+        Class<T> clazz = (Class<T>) getClass();
+        return RegistryType.getRegistryType(clazz);
     }
 
     public T get(String string) {

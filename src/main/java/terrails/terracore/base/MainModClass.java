@@ -31,15 +31,11 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         addRegistry(SimpleRegistry.class, RegistryType.BLOCKS);
         addRegistry(SimpleRegistry.class, RegistryType.ITEMS);
 
-        this.registerBlocks(getRegistry(SimpleRegistry.class, RegistryType.BLOCKS));
-        this.registerItems(getRegistry(SimpleRegistry.class, RegistryType.ITEMS));
+        this.registerForgeEntries(getRegistry(SimpleRegistry.class, RegistryType.BLOCKS));
+        this.registerForgeEntries(getRegistry(SimpleRegistry.class, RegistryType.ITEMS));
     }
 
-    public void registerBlocks(SimpleRegistry<Block> registry) {
-
-    }
-
-    public void registerItems(SimpleRegistry<Block> registry) {
+    public void registerForgeEntries(SimpleRegistry registry) {
 
     }
 
