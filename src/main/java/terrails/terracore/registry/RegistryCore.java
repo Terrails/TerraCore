@@ -28,6 +28,7 @@ public class RegistryCore {
 
     @SuppressWarnings("unchecked")
     public void register(Object... objects) {
+        createRegistries();
         Arrays.stream(objects).filter(IForgeRegistryEntry.class::isInstance).forEach(object -> getRegistry(RegistryType.getFromClass(object.getClass())).register(object));
 
         /*
@@ -62,7 +63,7 @@ public class RegistryCore {
         setCustomRegistries(registries);
         for (RegistryType type : RegistryType.values()) {
 
-            if (registries.stream().map(registry -> registry.getType() == type).findAny().orElse(false))
+            if (registries.stream().map(registry -> registry.getType() == type).findAny().orElse(false) && entries.keySet().stream().map(type1 -> type1 == type).findAny().orElse(false))
                 continue;
 
             registries.add(new RegistryForgeEntry(type, modEntry));

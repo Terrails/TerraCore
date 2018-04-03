@@ -40,7 +40,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     }
 
     @SuppressWarnings("unchecked")
-    public void register(RegistryCore registry, LoadingStage type) {
+    public void register(RegistryCore registry, LoadingStage stage) {
 
     }
     public boolean hasCustomRegistry() {
