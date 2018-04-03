@@ -8,4 +8,6 @@ public interface IModEntry<T> {
     String getId();
     String getName();
     String getVersion();
+
+    IRegistryEntry getRegistry();
 }

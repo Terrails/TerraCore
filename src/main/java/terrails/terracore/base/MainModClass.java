@@ -15,7 +15,6 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     private final String modName;
     private final String version;
 
- //   private Map<RegistryType, SimpleRegistry> registries;
     private RegistryCore registry = new RegistryCore(this);
 
     public MainModClass(String modId, String modName, String version) {
@@ -28,7 +27,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         register(null, LoadingStage.PRE_INIT);
         MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
         //Arrays.stream(RegistryType.values()).forEach(type -> addRegistry(new RegistryForgeEntry(type, this), type));
-        Arrays.stream(RegistryType.values()).forEach(type -> register(this.registry, LoadingStage.REGISTER));
+    //    Arrays.stream(RegistryType.values()).forEach(type -> register(this.registry.getRegistry(type), LoadingStage.REGISTER));
     }
 
     public void init(FMLInitializationEvent event) {
@@ -37,14 +36,6 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
 
     public void postInit(FMLPostInitializationEvent event) {
         register(null, LoadingStage.POST_INIT);
-    }
-
-    @SuppressWarnings("unchecked")
-    public void register(RegistryCore registry, LoadingStage stage) {
-
-    }
-    public boolean hasCustomRegistry() {
-        return false;
     }
 
     /** IRegistryEntry **/
@@ -59,48 +50,13 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         return (R) registry.getRegistry(type);
     }
 
-    /*
     @Override
-    public Map<RegistryType, SimpleRegistry> getRegistries() {
-        return registries;
-    }
-    @Override
-    public <R extends SimpleRegistry> void addRegistry(Class<R> registry, RegistryType type) {
-        if (registries == null) {
-            registries = Maps.newHashMap();
-        }
-        switch (type) {
-            case BLOCK:
-                registries.put(type, registry.cast(new SimpleRegistry<Block>(type, this)));
-                break;
-            case ITEM:
-                registries.put(type, registry.cast(new SimpleRegistry<Item>(type, this)));
-                break;
-            case POTION:
-                registries.put(type, registry.cast(new SimpleRegistry<Potion>(type, this)));
-                break;
-            case BIOME:
-                registries.put(type, registry.cast(new SimpleRegistry<Biome>(type, this)));
-                break;
-            case ENCHANTMENT:
-                registries.put(type, registry.cast(new SimpleRegistry<Enchantment>(type, this)));
-                break;
-            case SOUND_EVENT:
-                registries.put(type, registry.cast(new SimpleRegistry<SoundEvent>(type, this)));
-                break;
-        }
-    }
-    @Override
-    public <R extends SimpleRegistry> R getRegistry(Class<R> clazz, RegistryType type) {
-        SimpleRegistry registry = registries.get(type);
+    public Map<RegistryType, Registry> getCustomRegistries() { return null; }
 
-        if (clazz.isInstance(registry)) {
-            return clazz.cast(registry);
-        }
-
-        return null;
+    @Override
+    public Registry register(Registry registry, LoadingStage stage) {
+        return registry;
     }
-    */
 
     /** IModEntry **/
     @Override
@@ -114,5 +70,9 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     @Override
     public String getVersion() {
         return this.version;
+    }
+    @Override
+    public IRegistryEntry getRegistry() {
+        return this;
     }
 }

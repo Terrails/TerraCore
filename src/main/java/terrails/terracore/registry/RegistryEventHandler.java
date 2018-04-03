@@ -32,8 +32,10 @@ public class RegistryEventHandler {
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
+        List<Block> blockRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BLOCK), LoadingStage.REGISTER).getEntries();
         event.getRegistry().registerAll(blockRegistry.toArray(new Block[0]));
+        //      List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
+     //   event.getRegistry().registerAll(blockRegistry.toArray(new Block[0]));
       //  if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
     //        List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
     //        event.getRegistry().registerAll(blockRegistry.toArray(new Block[0]));
@@ -47,10 +49,10 @@ public class RegistryEventHandler {
    //         event.getRegistry().registerAll(itemRegistry.toArray(new Item[0]));
    //     }
 
-        List<Item> itemRegistry = this.registryEntry.getRegistry(RegistryType.ITEM).getEntries();
+        List<Item> itemRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.ITEM), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.ITEM).getEntries();
         event.getRegistry().registerAll(itemRegistry.toArray(new Item[0]));
 
-        List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
+        List<Block> blockRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BLOCK), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
         event.getRegistry().registerAll(blockRegistry.stream()
                 .filter(IItemBlock.class::isInstance)
                 .map(IItemBlock.class::cast)
@@ -80,7 +82,7 @@ public class RegistryEventHandler {
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerPotions(RegistryEvent.Register<Potion> event) {
-        List<Potion> potionRegistry = this.registryEntry.getRegistry(RegistryType.POTION).getEntries();
+        List<Potion> potionRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.POTION), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.POTION).getEntries();
         event.getRegistry().registerAll(potionRegistry.toArray(new Potion[0]));
     //    if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.POTION) != null) {
     //        List<Potion> potionRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.POTION).getEntries();
@@ -90,7 +92,7 @@ public class RegistryEventHandler {
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerBiomes(RegistryEvent.Register<Biome> event) {
-        List<Biome> biomeRegistry = this.registryEntry.getRegistry(RegistryType.BIOME).getEntries();
+        List<Biome> biomeRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BIOME), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.BIOME).getEntries();
         event.getRegistry().registerAll(biomeRegistry.toArray(new Biome[0]));
      //   if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BIOME) != null) {
      //       List<Biome> biomeRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BIOME).getEntries();
@@ -100,7 +102,7 @@ public class RegistryEventHandler {
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-        List<SoundEvent> soundRegistry = this.registryEntry.getRegistry(RegistryType.SOUND_EVENT).getEntries();
+        List<SoundEvent> soundRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.SOUND_EVENT), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.SOUND_EVENT).getEntries();
         event.getRegistry().registerAll(soundRegistry.toArray(new SoundEvent[0]));
       //  if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.SOUND_EVENT) != null) {
      //       List<SoundEvent> soundRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.SOUND_EVENT).getEntries();
@@ -110,7 +112,7 @@ public class RegistryEventHandler {
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
-        List<Enchantment> enchantmentRegistry = this.registryEntry.getRegistry(RegistryType.ENCHANTMENT).getEntries();
+        List<Enchantment> enchantmentRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.ENCHANTMENT), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.ENCHANTMENT).getEntries();
         event.getRegistry().registerAll(enchantmentRegistry.toArray(new Enchantment[0]));
      //   if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ENCHANTMENT) != null) {
     //        List<Enchantment> enchantmentRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ENCHANTMENT).getEntries();
@@ -123,7 +125,7 @@ public class RegistryEventHandler {
     public void registerModels(ModelRegistryEvent event) {
      //   if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
       //      List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
-        List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
+        List<Block> blockRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BLOCK), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
             blockRegistry.stream()
                     .filter(ICustomModel.class::isInstance)
                     .map(ICustomModel.class::cast)
@@ -136,7 +138,7 @@ public class RegistryEventHandler {
 
       //  if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM) != null) {
      //       List<Item> itemRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM).getEntries();
-        List<Item> itemRegistry = this.registryEntry.getRegistry(RegistryType.ITEM).getEntries();
+        List<Item> itemRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.ITEM), LoadingStage.REGISTER).getEntries();//this.registryEntry.getRegistry(RegistryType.ITEM).getEntries();
             itemRegistry.stream()
                     .filter(ICustomModel.class::isInstance)
                     .map(ICustomModel.class::cast)

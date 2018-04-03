@@ -1,13 +1,10 @@
 package terrails.terracore.registry;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.base.IModEntry;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class RegistryCore {
@@ -21,9 +18,22 @@ public class RegistryCore {
 
     public Registry getRegistry(RegistryType type) {
         if (!entries.containsKey(type)) {
-            createRegistries();
+            addRegistry(type);
         }
         return entries.get(type);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void addRegistry(RegistryType type) {
+        if (entries.containsKey(type)) return;
+
+        Map<RegistryType, Registry> registryMap = modEntry.getRegistry().getCustomRegistries();
+        if (registryMap == null) registryMap = Maps.newHashMap();
+        if (registryMap.containsKey(type)) {
+            entries.put(type, registryMap.get(type));
+        }
+
+        entries.put(type, new RegistryForgeEntry(type, modEntry));
     }
 
     @SuppressWarnings("unchecked")
@@ -56,30 +66,7 @@ public class RegistryCore {
         */
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
-    private void createRegistries() {
-        List<Registry> registries = Lists.newArrayList();
-        setCustomRegistries(registries);
-        for (RegistryType type : RegistryType.values()) {
-
-            if (registries.stream().map(registry -> registry.getType() == type).findAny().orElse(false) && entries.keySet().stream().map(type1 -> type1 == type).findAny().orElse(false))
-                continue;
-
-            registries.add(new RegistryForgeEntry(type, modEntry));
-        }
-        registries.forEach(registry -> entries.put(registry.getType(), registry));
-    }
-
-    private void put(Map<Object, Registry> registries) {
-        if (registries.keySet().stream().map(object -> object instanceof Block).findFirst().orElse(false)) {
-
-        }
-    }
-
-    protected void setCustomRegistries(List<Registry> customRegistries) {}
-
     public Map<RegistryType, Registry> getEntries() {
-        createRegistries();
         return this.entries;
     }
 }
