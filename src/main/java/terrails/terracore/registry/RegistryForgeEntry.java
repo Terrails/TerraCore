@@ -20,6 +20,8 @@ public class RegistryForgeEntry<T extends IForgeRegistryEntry> extends Registry<
         return this.register(entry, false);
     }
     public T register(T entry, boolean override) {
+        if (entries.contains(entry)) return entry;
+        
         ResourceLocation registryName = entry.getRegistryName();
         if (registryName == null) {
             throw new RuntimeException(entry + ", doesn't have a registry name!");
