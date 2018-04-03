@@ -28,8 +28,7 @@ public class RegistryCore {
 
     @SuppressWarnings("unchecked")
     public void register(Object... objects) {
-        createRegistries();
-        Arrays.stream(objects).filter(IForgeRegistryEntry.class::isInstance).forEach(object -> getRegistry(RegistryType.getFromClass(object.getClass())).register(object));
+        Arrays.stream(objects).filter(IForgeRegistryEntry.class::isInstance).forEach(object -> getRegistry(RegistryType.getFromObject(object)).register(object));
 
         /*
         for (Object object : objects) {
@@ -80,6 +79,7 @@ public class RegistryCore {
     protected void setCustomRegistries(List<Registry> customRegistries) {}
 
     public Map<RegistryType, Registry> getEntries() {
+        createRegistries();
         return this.entries;
     }
 }

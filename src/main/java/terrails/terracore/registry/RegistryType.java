@@ -16,18 +16,18 @@ public enum RegistryType {
     SOUND_EVENT,
     ENCHANTMENT;
 
-    public static RegistryType getFromClass(Class clazz) {
-        if (clazz.getName().equalsIgnoreCase(Block.class.getName())) {
+    public static RegistryType getFromObject(Object object) {
+        if (object.getClass() == Block.class) {
             return BLOCK;
-        } else if (clazz.getName().equalsIgnoreCase(Item.class.getName())) {
+        } else if (object.getClass() == Item.class) {
             return ITEM;
-        } else if (clazz.getName().equalsIgnoreCase(Potion.class.getName())) {
+        } else if (object.getClass() == Potion.class) {
             return POTION;
-        } else if (clazz.getName().equalsIgnoreCase(Biome.class.getName())) {
+        } else if (object.getClass() == Biome.class) {
             return BIOME;
-        } else if (clazz.getName().equalsIgnoreCase(SoundEvent.class.getName())) {
+        } else if (object.getClass() == SoundEvent.class) {
             return SOUND_EVENT;
-        } else if (clazz.getName().equalsIgnoreCase(Enchantment.class.getName())) {
+        } else if (object.getClass() == Enchantment.class) {
             return ENCHANTMENT;
         }
         return null;
