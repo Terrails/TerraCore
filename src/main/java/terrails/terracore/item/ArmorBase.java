@@ -17,12 +17,12 @@ public class ArmorBase extends ItemArmor implements IUnlocalizedName<Item> {
     }
 
     @Override
-    public Item setUnlocalizedName(String name) {
-        return super.setUnlocalizedName(modId + "." + name);
+    public Item setEntryName(String name) {
+        return this.setUnlocalizedName(modId + "." + name);
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return super.getUnlocalizedName();
+    public String getEntryName() {
+        return this.getUnlocalizedName();
     }
 }

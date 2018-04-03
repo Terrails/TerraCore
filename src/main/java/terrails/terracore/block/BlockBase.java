@@ -20,12 +20,12 @@ public class BlockBase extends Block implements IUnlocalizedName<Block> {
     }
 
     @Override
-    public Block setUnlocalizedName(String name) {
-        return super.setUnlocalizedName(modId + "." + name);
+    public Block setEntryName(String name) {
+        return this.setUnlocalizedName(modId + "." + name);
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return super.getUnlocalizedName();
+    public String getEntryName() {
+        return this.getUnlocalizedName();
     }
 }

@@ -13,4 +13,14 @@ public class ItemBlockBase extends ItemBlock implements IUnlocalizedName<Item> {
         super(block);
         this.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
     }
+
+    @Override
+    public String getEntryName() {
+        return this.getUnlocalizedName();
+    }
+
+    @Override
+    public Item setEntryName(String name) {
+        return this.setUnlocalizedName(name);
+    }
 }

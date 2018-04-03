@@ -49,13 +49,13 @@ public class PotionBase extends Potion implements IUnlocalizedName<Potion> {
     }
 
     @Override
-    public String getUnlocalizedName() {
+    public String getEntryName() {
         return this.getName();
     }
 
     @Override
-    public Potion setUnlocalizedName(String name) {
-        return super.setPotionName(modId + "." + name);
+    public Potion setEntryName(String name) {
+        return this.setPotionName(modId + "." + name);
     }
 
     @Override

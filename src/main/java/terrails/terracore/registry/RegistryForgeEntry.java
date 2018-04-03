@@ -21,7 +21,7 @@ public class RegistryForgeEntry<T extends IForgeRegistryEntry> extends Registry<
     }
     public T register(T entry, boolean override) {
         if (entries.contains(entry)) return entry;
-        
+
         ResourceLocation registryName = entry.getRegistryName();
         if (registryName == null) {
             throw new RuntimeException(entry + ", doesn't have a registry name!");
@@ -40,7 +40,7 @@ public class RegistryForgeEntry<T extends IForgeRegistryEntry> extends Registry<
             return;
 
 
-        String name = unlocalizedName.getUnlocalizedName();
+        String name = unlocalizedName.getEntryName();
         if (name.isEmpty()) {
             throw new NullPointerException("'" + Objects.requireNonNull(entry.getRegistryName()).toString() + "' does not have a unlocalized name!");
         }
@@ -56,7 +56,7 @@ public class RegistryForgeEntry<T extends IForgeRegistryEntry> extends Registry<
 
             if (!name.contains(modEntry.getId())) {
                 name = (entry instanceof Potion ? "potion." : "") + modEntry.getId() + "." + name;
-                unlocalizedName.setUnlocalizedName(name);
+                unlocalizedName.setEntryName(name);
             }
         }
     }
