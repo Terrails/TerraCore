@@ -2,9 +2,10 @@ package terrails.terracore.item.tool;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;
+import terrails.terracore.api.forgeentry.IUnlocalizedName;
 
 @SuppressWarnings("ConstantConditions")
-public class ShovelBase extends ItemSpade {
+public class ShovelBase extends ItemSpade implements IUnlocalizedName<Item> {
 
     private final String modId;
 
@@ -17,5 +18,10 @@ public class ShovelBase extends ItemSpade {
     @Override
     public Item setUnlocalizedName(String name) {
         return super.setUnlocalizedName(modId + "." + name);
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return super.getUnlocalizedName();
     }
 }

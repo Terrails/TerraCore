@@ -1,5 +1,6 @@
 package terrails.terracore.base;
 
+import terrails.terracore.registry.Registry;
 import terrails.terracore.registry.RegistryType;
 import terrails.terracore.registry.SimpleRegistry;
 
@@ -7,8 +8,11 @@ import java.util.Map;
 
 public interface IRegistryEntry {
 
-    Map<RegistryType, SimpleRegistry> getRegistries();
+    Map<RegistryType, Registry> getRegistries();
+    <R extends Registry> R getRegistry(RegistryType type);
 
-    <R extends SimpleRegistry> void addRegistry(Class<R> registry, RegistryType type);
-    <R extends SimpleRegistry> R getRegistry(Class<R> clazz, RegistryType type);
+   // Map<RegistryType, SimpleRegistry> getRegistries();
+
+ //   <R extends SimpleRegistry> void addRegistry(Class<R> registry, RegistryType type);
+ //   <R extends SimpleRegistry> R getRegistry(Class<R> clazz, RegistryType type);
 }

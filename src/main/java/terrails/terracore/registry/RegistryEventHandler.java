@@ -32,19 +32,36 @@ public class RegistryEventHandler {
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
-            List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
-            event.getRegistry().registerAll(blockRegistry.toArray(new Block[0]));
-        }
+        List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
+        event.getRegistry().registerAll(blockRegistry.toArray(new Block[0]));
+      //  if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
+    //        List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
+    //        event.getRegistry().registerAll(blockRegistry.toArray(new Block[0]));
+    //    }
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerItems(RegistryEvent.Register<Item> event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM) != null) {
-            List<Item> itemRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM).getEntries();
-            event.getRegistry().registerAll(itemRegistry.toArray(new Item[0]));
-        }
+    //    if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM) != null) {
+    //        List<Item> itemRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM).getEntries();
+   //         event.getRegistry().registerAll(itemRegistry.toArray(new Item[0]));
+   //     }
 
+        List<Item> itemRegistry = this.registryEntry.getRegistry(RegistryType.ITEM).getEntries();
+        event.getRegistry().registerAll(itemRegistry.toArray(new Item[0]));
+
+        List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
+        event.getRegistry().registerAll(blockRegistry.stream()
+                .filter(IItemBlock.class::isInstance)
+                .map(IItemBlock.class::cast)
+                .map(IItemBlock::getItemBlock)
+                .toArray(ItemBlock[]::new));
+
+        event.getRegistry().registerAll(blockRegistry.stream()
+                .filter(((Predicate<Block>) IItemBlock.class::isInstance).negate())
+                .map(ItemBlockBase::new)
+                .toArray(ItemBlock[]::new));
+        /*
         if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
             List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
             event.getRegistry().registerAll(blockRegistry.stream()
@@ -58,46 +75,55 @@ public class RegistryEventHandler {
                     .map(ItemBlockBase::new)
                     .toArray(ItemBlock[]::new));
         }
+        */
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerPotions(RegistryEvent.Register<Potion> event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.POTION) != null) {
-            List<Potion> potionRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.POTION).getEntries();
-            event.getRegistry().registerAll(potionRegistry.toArray(new Potion[0]));
-        }
+        List<Potion> potionRegistry = this.registryEntry.getRegistry(RegistryType.POTION).getEntries();
+        event.getRegistry().registerAll(potionRegistry.toArray(new Potion[0]));
+    //    if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.POTION) != null) {
+    //        List<Potion> potionRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.POTION).getEntries();
+    //        event.getRegistry().registerAll(potionRegistry.toArray(new Potion[0]));
+    //    }
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerBiomes(RegistryEvent.Register<Biome> event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BIOME) != null) {
-            List<Biome> biomeRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BIOME).getEntries();
-            event.getRegistry().registerAll(biomeRegistry.toArray(new Biome[0]));
-        }
+        List<Biome> biomeRegistry = this.registryEntry.getRegistry(RegistryType.BIOME).getEntries();
+        event.getRegistry().registerAll(biomeRegistry.toArray(new Biome[0]));
+     //   if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BIOME) != null) {
+     //       List<Biome> biomeRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BIOME).getEntries();
+     //       event.getRegistry().registerAll(biomeRegistry.toArray(new Biome[0]));
+     //   }
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.SOUND_EVENT) != null) {
-            List<SoundEvent> soundRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.SOUND_EVENT).getEntries();
-            event.getRegistry().registerAll(soundRegistry.toArray(new SoundEvent[0]));
-        }
+        List<SoundEvent> soundRegistry = this.registryEntry.getRegistry(RegistryType.SOUND_EVENT).getEntries();
+        event.getRegistry().registerAll(soundRegistry.toArray(new SoundEvent[0]));
+      //  if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.SOUND_EVENT) != null) {
+     //       List<SoundEvent> soundRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.SOUND_EVENT).getEntries();
+    //        event.getRegistry().registerAll(soundRegistry.toArray(new SoundEvent[0]));
+     //   }
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ENCHANTMENT) != null) {
-            List<Enchantment> enchantmentRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ENCHANTMENT).getEntries();
-            event.getRegistry().registerAll(enchantmentRegistry.toArray(new Enchantment[0]));
-        }
+        List<Enchantment> enchantmentRegistry = this.registryEntry.getRegistry(RegistryType.ENCHANTMENT).getEntries();
+        event.getRegistry().registerAll(enchantmentRegistry.toArray(new Enchantment[0]));
+     //   if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ENCHANTMENT) != null) {
+    //        List<Enchantment> enchantmentRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ENCHANTMENT).getEntries();
+     //       event.getRegistry().registerAll(enchantmentRegistry.toArray(new Enchantment[0]));
+     //   }
     }
 
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerModels(ModelRegistryEvent event) {
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
-            List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
-
+     //   if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK) != null) {
+      //      List<Block> blockRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.BLOCK).getEntries();
+        List<Block> blockRegistry = this.registryEntry.getRegistry(RegistryType.BLOCK).getEntries();
             blockRegistry.stream()
                     .filter(ICustomModel.class::isInstance)
                     .map(ICustomModel.class::cast)
@@ -106,10 +132,11 @@ public class RegistryEventHandler {
             blockRegistry.stream()
                     .filter(((Predicate<Block>) ICustomModel.class::isInstance).negate())
                     .forEach(RegistryEventHandler::registerModel);
-        }
+      //  }
 
-        if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM) != null) {
-            List<Item> itemRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM).getEntries();
+      //  if (registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM) != null) {
+     //       List<Item> itemRegistry = this.registryEntry.getRegistry(SimpleRegistry.class, RegistryType.ITEM).getEntries();
+        List<Item> itemRegistry = this.registryEntry.getRegistry(RegistryType.ITEM).getEntries();
             itemRegistry.stream()
                     .filter(ICustomModel.class::isInstance)
                     .map(ICustomModel.class::cast)
@@ -118,7 +145,7 @@ public class RegistryEventHandler {
             itemRegistry.stream()
                     .filter(((Predicate<Item>) ICustomModel.class::isInstance).negate())
                     .forEach(RegistryEventHandler::registerModel);
-        }
+     //   }
     }
     private static void registerModel(Block block) {
         ModelResourceLocation resourceLocation = new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory");

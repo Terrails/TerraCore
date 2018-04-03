@@ -3,9 +3,10 @@ package terrails.terracore.item;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import terrails.terracore.api.forgeentry.IUnlocalizedName;
 
 @SuppressWarnings("ConstantConditions")
-public class ArmorBase extends ItemArmor {
+public class ArmorBase extends ItemArmor implements IUnlocalizedName<Item> {
 
     private final String modId;
 
@@ -18,5 +19,10 @@ public class ArmorBase extends ItemArmor {
     @Override
     public Item setUnlocalizedName(String name) {
         return super.setUnlocalizedName(modId + "." + name);
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return super.getUnlocalizedName();
     }
 }

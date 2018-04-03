@@ -1,8 +1,9 @@
 package terrails.terracore.item;
 
 import net.minecraft.item.Item;
+import terrails.terracore.api.forgeentry.IUnlocalizedName;
 
-public class ItemBase extends Item {
+public class ItemBase extends Item implements IUnlocalizedName<Item> {
 
     private final String modId;
 
@@ -15,4 +16,8 @@ public class ItemBase extends Item {
         return super.setUnlocalizedName(modId + "." + name);
     }
 
+    @Override
+    public String getUnlocalizedName() {
+        return super.getUnlocalizedName();
+    }
 }

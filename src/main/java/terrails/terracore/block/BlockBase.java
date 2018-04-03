@@ -3,8 +3,9 @@ package terrails.terracore.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import terrails.terracore.api.forgeentry.IUnlocalizedName;
 
-public class BlockBase extends Block {
+public class BlockBase extends Block implements IUnlocalizedName<Block> {
 
     private final String modId;
 
@@ -21,5 +22,10 @@ public class BlockBase extends Block {
     @Override
     public Block setUnlocalizedName(String name) {
         return super.setUnlocalizedName(modId + "." + name);
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return super.getUnlocalizedName();
     }
 }

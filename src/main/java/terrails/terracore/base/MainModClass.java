@@ -1,17 +1,10 @@
 package terrails.terracore.base;
 
-import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import terrails.terracore.registry.RegistryEventHandler;
-import terrails.terracore.registry.RegistryType;
-import terrails.terracore.registry.SimpleRegistry;
+import terrails.terracore.registry.*;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -22,7 +15,8 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     private final String modName;
     private final String version;
 
-    private Map<RegistryType, SimpleRegistry> registries;
+ //   private Map<RegistryType, SimpleRegistry> registries;
+    private RegistryCore registry = new RegistryCore(this);
 
     public MainModClass(String modId, String modName, String version) {
         this.modId = modId;
@@ -31,20 +25,41 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        if (!hasCustomRegistry()) {
-            MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
-            Arrays.stream(RegistryType.values()).forEach(type -> addRegistry(SimpleRegistry.class, type));
-            Arrays.stream(RegistryType.values()).forEach(type -> registerForgeEntries(getRegistry(SimpleRegistry.class, type), type));
-        }
+        register(null, LoadingStage.PRE_INIT);
+        MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
+        //Arrays.stream(RegistryType.values()).forEach(type -> addRegistry(new RegistryForgeEntry(type, this), type));
+        Arrays.stream(RegistryType.values()).forEach(type -> register(this.registry, LoadingStage.REGISTER));
+    }
+
+    public void init(FMLInitializationEvent event) {
+        register(null, LoadingStage.INIT);
+    }
+
+    public void postInit(FMLPostInitializationEvent event) {
+        register(null, LoadingStage.POST_INIT);
     }
 
     @SuppressWarnings("unchecked")
-    public void registerForgeEntries(SimpleRegistry registry, RegistryType type) {}
+    public void register(RegistryCore registry, LoadingStage type) {
+
+    }
     public boolean hasCustomRegistry() {
         return false;
     }
 
     /** IRegistryEntry **/
+    @Override
+    public Map<RegistryType, Registry> getRegistries() {
+        return this.registry.getEntries();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <R extends Registry> R getRegistry(RegistryType type) {
+        return (R) registry.getRegistry(type);
+    }
+
+    /*
     @Override
     public Map<RegistryType, SimpleRegistry> getRegistries() {
         return registries;
@@ -85,6 +100,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
 
         return null;
     }
+    */
 
     /** IModEntry **/
     @Override
