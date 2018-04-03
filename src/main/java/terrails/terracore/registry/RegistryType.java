@@ -17,17 +17,17 @@ public enum RegistryType {
     ENCHANTMENT;
 
     public static RegistryType getFromObject(Object object) {
-        if (object.getClass() == Block.class) {
+        if (object instanceof Block) {
             return BLOCK;
-        } else if (object.getClass() == Item.class) {
+        } else if (object instanceof Item) {
             return ITEM;
-        } else if (object.getClass() == Potion.class) {
+        } else if (object instanceof Potion) {
             return POTION;
-        } else if (object.getClass() == Biome.class) {
+        } else if (object instanceof Biome) {
             return BIOME;
-        } else if (object.getClass() == SoundEvent.class) {
+        } else if (object instanceof SoundEvent) {
             return SOUND_EVENT;
-        } else if (object.getClass() == Enchantment.class) {
+        } else if (object instanceof Enchantment) {
             return ENCHANTMENT;
         }
         return null;
