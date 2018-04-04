@@ -15,8 +15,7 @@ public class ItemCraftingDurabilityBase extends ItemBase {
 
     private int maxDamage;
 
-    public ItemCraftingDurabilityBase(String modId, int damage) {
-        super(modId);
+    public ItemCraftingDurabilityBase(int damage) {
         this.setMaxDamage(damage - 1);
         this.setMaxStackSize(1);
         this.setContainerItem(this);

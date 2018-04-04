@@ -1,9 +1,7 @@
 package terrails.terracore.base;
 
-import net.minecraftforge.fml.relauncher.Side;
-import terrails.terracore.base.proxies.IProxy;
-import terrails.terracore.registry.LoadingStage;
-import terrails.terracore.registry.RegistryList;
+import terrails.terracore.base.proxies.ProxyBase;
+import terrails.terracore.base.registry.RegistryList;
 
 public interface IModEntry<T> {
 
@@ -13,7 +11,8 @@ public interface IModEntry<T> {
     String getName();
     String getVersion();
 
-    IProxy getProxy();
+    IProxyRegistry getProxyRegistry();
 
-    RegistryList getRegistry(RegistryList list, LoadingStage stage, Side side);
+    ProxyBase getProxy();
+    RegistryList getRegistry(RegistryList list);
 }

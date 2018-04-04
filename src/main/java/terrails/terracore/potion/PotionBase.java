@@ -6,16 +6,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import terrails.terracore.api.forgeentry.IUnlocalizedName;
+import terrails.terracore.registry.IUnlocalizedName;
 
 public class PotionBase extends Potion implements IUnlocalizedName<Potion> {
 
     private ResourceLocation texture_location;
-    private final String modId;
 
-    public PotionBase(String modId, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
+    public PotionBase(boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
         super(isBadEffectIn, liquidColorIn);
-        this.modId = modId;
         this.setIconIndex(iconIndexX, iconIndexY);
     }
 
@@ -39,11 +37,6 @@ public class PotionBase extends Potion implements IUnlocalizedName<Potion> {
     }
 
     @Override
-    public Potion setPotionName(String name) {
-        return super.setPotionName(modId + "." + name);
-    }
-
-    @Override
     public String getName() {
         return "potion." + super.getName();
     }
@@ -55,7 +48,7 @@ public class PotionBase extends Potion implements IUnlocalizedName<Potion> {
 
     @Override
     public Potion setEntryName(String name) {
-        return this.setPotionName(modId + "." + name);
+        return this.setPotionName(name);
     }
 
     @Override

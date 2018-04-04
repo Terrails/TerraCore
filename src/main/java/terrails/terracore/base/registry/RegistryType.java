@@ -1,5 +1,4 @@
-package terrails.terracore.registry;
-
+package terrails.terracore.base.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -9,12 +8,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 
 public enum RegistryType {
-    BLOCK,
-    ITEM,
-    POTION,
-    BIOME,
-    SOUND_EVENT,
-    ENCHANTMENT;
+    BLOCK, ITEM, POTION, BIOME, SOUND_EVENT, ENCHANTMENT;
 
     public static RegistryType getFromObject(Object object) {
         if (object instanceof Block) {

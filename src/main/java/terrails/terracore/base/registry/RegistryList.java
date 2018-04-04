@@ -1,9 +1,9 @@
-package terrails.terracore.registry;
+package terrails.terracore.base.registry;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import terrails.terracore.api.forgeentry.IUnlocalizedName;
+import terrails.terracore.registry.IUnlocalizedName;
 import terrails.terracore.base.IModEntry;
 
 import java.util.*;

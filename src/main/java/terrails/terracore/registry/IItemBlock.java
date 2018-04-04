@@ -1,4 +1,4 @@
-package terrails.terracore.block.item;
+package terrails.terracore.registry;
 
 import net.minecraft.item.ItemBlock;
 

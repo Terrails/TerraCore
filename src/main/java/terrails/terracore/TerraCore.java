@@ -1,33 +1,40 @@
 package terrails.terracore;
 
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import terrails.terracore.proxies.IProxy;
+import terrails.terracore.base.MainModClass;
 
-@Mod(modid = Constants.MOD_ID,
-        name = Constants.MOD_NAME,
-        version = Constants.VERSION,
-        acceptedMinecraftVersions = Constants.MC_VERSION)
-public class TerraCore {
-    @SidedProxy(clientSide = Constants.CLIENT_PROXY, serverSide = Constants.SERVER_PROXY)
-    public static IProxy proxy;
+@Mod(modid = TerraCore.MOD_ID,
+        name = TerraCore.MOD_NAME,
+        version = TerraCore.VERSION)
+public class TerraCore extends MainModClass<TerraCore> {
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        proxy.preInit(event);
+    public static final String MOD_ID = "terracore";
+    public static final String MOD_NAME = "TerraCore";
+    public static final String VERSION = "@VERSION@";
+
+    public TerraCore() {
+        super(MOD_ID, MOD_NAME, VERSION);
+        this.useRegistry = false;
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
-    }
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {}
 
     @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
+    @Override
+    public void init(FMLInitializationEvent event) {}
+
+    @Mod.EventHandler
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {}
+
+    @Override
+    public TerraCore getInstance() {
+        return this;
     }
 }
 

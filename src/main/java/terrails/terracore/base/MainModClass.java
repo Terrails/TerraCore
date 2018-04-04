@@ -6,15 +6,21 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import terrails.terracore.base.proxies.IProxy;
+import terrails.terracore.base.proxies.ProxyBase;
+import terrails.terracore.base.registry.LoadingStage;
+import terrails.terracore.base.registry.RegistryEventHandler;
+import terrails.terracore.base.registry.RegistryList;
 import terrails.terracore.registry.*;
 
-public abstract class MainModClass<T extends MainModClass> implements IModEntry<T> {
+public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IProxyRegistry {
 
     private final String modId;
     private final String modName;
     private final String version;
-    protected IProxy proxy;
+    private ProxyBase proxy;
+
+    /** Fields used for "config" options of the MainClass **/ // TODO: Add more stuff
+    protected boolean useRegistry = true;
 
     public MainModClass(String modId, String modName, String version) {
         this.modId = modId;
@@ -22,30 +28,32 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         this.version = version;
 
         this.proxy = createProxies();
-        if (this.proxy != null)
+        if (this.proxy != null) {
             this.proxy.setMod(this);
+        }
     }
 
     public void preInit(FMLPreInitializationEvent event) {
         this.proxy.preInit(event);
-        this.register(null, LoadingStage.PRE_INIT, Side.SERVER);
-        MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
+
+        if (useRegistry) {
+            MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
+        }
     }
     public void init(FMLInitializationEvent event) {
         this.proxy.init(event);
-        this.register(null, LoadingStage.INIT, Side.SERVER);
     }
     public void postInit(FMLPostInitializationEvent event) {
         this.proxy.postInit(event);
-        this.register(null, LoadingStage.POST_INIT, Side.SERVER);
     }
 
-    /** Registry **/
-    protected RegistryList register(RegistryList list, LoadingStage stage, Side side) {
-        // Using Side.SERVER for registries... and Side.CLIENT for client stuff
-        // Yes... I know that some of it is common but I just call is SERVER
-        return list;
-    }
+    /** IProxyRegistry **/ // TODO: Find a better name for it
+
+    @Override
+    public void registerForgeEntries(RegistryList list) {}
+
+    @Override
+    public void registerProxyEntries(Side side, LoadingStage stage) {}
 
     /** IModEntry **/
     @Override
@@ -61,24 +69,28 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         return this.version;
     }
     @Override
-    public RegistryList getRegistry(RegistryList list, LoadingStage stage, Side side) {
-        return this.register(list, stage, side);
+    public ProxyBase getProxy() {
+        return this.proxy;
     }
     @Override
-    public IProxy getProxy() {
-        return this.proxy;
+    public IProxyRegistry getProxyRegistry() {
+        return this;
+    }
+    @Override
+    public RegistryList getRegistry(RegistryList list) {
+        this.registerForgeEntries(list);
+        return list;
     }
 
     /** END **/
 
-
-    private IProxy createProxies() {
+    private ProxyBase createProxies() {
         try {
             Side side = FMLCommonHandler.instance().getEffectiveSide();
-            String proxy = side == Side.CLIENT ? "terrails.terracore.base.proxies.ClientProxy" : "terrails.terracore.base.proxies.ServerProxy";
-            Object object = Class.forName(proxy).newInstance();
-            if (object instanceof IProxy) {
-                return ((IProxy) object);
+            String target = side.isClient() ? "terrails.terracore.base.proxies.ClientProxy" : "terrails.terracore.base.proxies.ServerProxy";
+            Object proxy = Class.forName(target).newInstance();
+            if (proxy instanceof ProxyBase) {
+                return (ProxyBase) proxy;
             }
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();

@@ -3,7 +3,7 @@ package terrails.terracore.block.item;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import terrails.terracore.api.forgeentry.IUnlocalizedName;
+import terrails.terracore.registry.IUnlocalizedName;
 
 import java.util.Objects;
 
