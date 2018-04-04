@@ -4,10 +4,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.registry.*;
-
-import java.util.Arrays;
-import java.util.Map;
 
 public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IRegistryEntry {
 
@@ -15,7 +13,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     private final String modName;
     private final String version;
 
-    private RegistryCore registry = new RegistryCore(this);
+  //  private Map<RegistryType, RegistryForgeEntry> registryEntries = Maps.newHashMap();
 
     public MainModClass(String modId, String modName, String version) {
         this.modId = modId;
@@ -24,38 +22,50 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        register(null, LoadingStage.PRE_INIT);
+        this.register(null, LoadingStage.PRE_INIT);
         MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
-        //Arrays.stream(RegistryType.values()).forEach(type -> addRegistry(new RegistryForgeEntry(type, this), type));
-    //    Arrays.stream(RegistryType.values()).forEach(type -> register(this.registry.getRegistry(type), LoadingStage.REGISTER));
     }
-
     public void init(FMLInitializationEvent event) {
-        register(null, LoadingStage.INIT);
+        this.register(null, LoadingStage.INIT);
     }
-
     public void postInit(FMLPostInitializationEvent event) {
-        register(null, LoadingStage.POST_INIT);
+        this.register(null, LoadingStage.POST_INIT);
     }
 
     /** IRegistryEntry **/
+/*
     @Override
-    public Map<RegistryType, Registry> getRegistries() {
-        return this.registry.getEntries();
+    public Map<RegistryType, RegistryForgeEntry> getRegistries() {
+        return this.registryEntries;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <R extends Registry> R getRegistry(RegistryType type) {
-        return (R) registry.getRegistry(type);
+    public RegistryForgeEntry getRegistry(RegistryType type) {
+        if (!registryEntries.containsKey(type)) {
+            addRegistry(type);
+        }
+        return registryEntries.get(type);
     }
 
     @Override
-    public Map<RegistryType, Registry> getCustomRegistries() { return null; }
+    public void addRegistry(RegistryType type) {
+        if (registryEntries.containsKey(type)) return;
+
+        Map<RegistryType, RegistryForgeEntry> registryMap = Maps.newHashMap();
+        getCustomRegistries(registryMap);
+        if (registryMap.containsKey(type)) {
+            registryEntries.put(type, registryMap.get(type));
+        }
+
+        registryEntries.put(type, new RegistryForgeEntry(type, this));
+    }
 
     @Override
-    public Registry register(Registry registry, LoadingStage stage) {
-        return registry;
+    public void getCustomRegistries(Map<RegistryType, RegistryForgeEntry> map) {}
+*/
+    @Override
+    public RegistryList register(RegistryList<? extends IForgeRegistryEntry> list, LoadingStage stage) {
+        return list;
     }
 
     /** IModEntry **/

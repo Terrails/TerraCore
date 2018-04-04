@@ -1,5 +1,6 @@
 package terrails.terracore.registry;
 
+import com.google.common.collect.Lists;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -7,15 +8,20 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.api.forgeentry.IUnlocalizedName;
 import terrails.terracore.base.IModEntry;
 
+import java.util.List;
 import java.util.Objects;
 
-public class RegistryForgeEntry<T extends IForgeRegistryEntry> extends Registry<T> {
+public class RegistryForgeEntry<T extends IForgeRegistryEntry> {
+
+    protected final IModEntry modEntry;
+    protected final RegistryType type;
+    protected List<T> entries = Lists.newArrayList();
 
     public RegistryForgeEntry(RegistryType type, IModEntry modEntry) {
-        super(type, modEntry);
+        this.modEntry = modEntry;
+        this.type = type;
     }
 
-    @Override
     public T register(T entry) {
         return this.register(entry, false);
     }
@@ -81,5 +87,12 @@ public class RegistryForgeEntry<T extends IForgeRegistryEntry> extends Registry<
     @SuppressWarnings("unchecked")
     private <R extends IForgeRegistryEntry<R>> void register(RegistryEvent.Register<R> event) {
         entries.stream().map(value -> (R) value).forEach(event.getRegistry()::register);
+    }
+
+    public List<T> getEntries() {
+        return this.entries;
+    }
+    public RegistryType getType() {
+        return this.type;
     }
 }

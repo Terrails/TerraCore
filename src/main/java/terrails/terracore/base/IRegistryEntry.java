@@ -1,21 +1,17 @@
 package terrails.terracore.base;
 
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.registry.*;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IRegistryEntry {
 
-    Map<RegistryType, Registry> getRegistries();
-    <R extends Registry> R getRegistry(RegistryType type);
-    Map<RegistryType, Registry> getCustomRegistries();
+   // Map<RegistryType, RegistryForgeEntry> getRegistries();
+   // RegistryForgeEntry getRegistry(RegistryType type);
+   // void getCustomRegistries(Map<RegistryType, RegistryForgeEntry> map);
+   // void addRegistry(RegistryType type);
 
-    Registry register(Registry registry, LoadingStage stage);
-    //   <R extends Registry> R addRegistry(R registry, RegistryType type);
- //   <R extends Registry> R addRegistry(RegistryType type);
-
-    // Map<RegistryType, SimpleRegistry> getRegistries();
-
- //   <R extends SimpleRegistry> void addRegistry(Class<R> registry, RegistryType type);
- //   <R extends SimpleRegistry> R getRegistry(Class<R> clazz, RegistryType type);
+    RegistryList register(RegistryList<? extends IForgeRegistryEntry> list, LoadingStage stage);
 }
