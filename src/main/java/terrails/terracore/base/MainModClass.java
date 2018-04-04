@@ -10,14 +10,13 @@ import terrails.terracore.base.proxies.ProxyBase;
 import terrails.terracore.base.registry.LoadingStage;
 import terrails.terracore.base.registry.RegistryEventHandler;
 import terrails.terracore.base.registry.RegistryList;
-import terrails.terracore.registry.*;
 
 public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IProxyRegistry {
 
     private final String modId;
     private final String modName;
     private final String version;
-    private ProxyBase proxy;
+    private final ProxyBase proxy;
 
     /** Fields used for "config" options of the MainClass **/ // TODO: Add more stuff
     protected boolean useRegistry = true;

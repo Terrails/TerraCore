@@ -20,8 +20,8 @@ public class PotionBase extends Potion implements IUnlocalizedName<Potion> {
     protected void setTextureLocation(ResourceLocation location) {
         texture_location = location;
     }
-    protected void setDefaultTextureLocation(String modid) {
-        texture_location = new ResourceLocation(modid, "textures/misc/potions.png");
+    protected void setDefaultTextureLocation(String modId) {
+        texture_location = new ResourceLocation(modId, "textures/misc/potions.png");
     }
     protected ResourceLocation getTextureLocation() {
         return texture_location;

@@ -9,7 +9,7 @@ import net.minecraft.util.NonNullList;
 public abstract class CreativeTabsBase extends CreativeTabs {
 
     protected NonNullList<ItemStack> list = NonNullList.create();
-    private ItemStack stack;
+    private final ItemStack stack;
 
     public CreativeTabsBase(String label, ItemStack displayItem) {
         super(label);

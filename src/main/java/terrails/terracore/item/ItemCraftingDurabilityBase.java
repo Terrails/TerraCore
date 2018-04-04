@@ -13,7 +13,7 @@ public class ItemCraftingDurabilityBase extends ItemBase {
     protected String information;
     protected boolean displayDurability;
 
-    private int maxDamage;
+    private final int maxDamage;
 
     public ItemCraftingDurabilityBase(int damage) {
         this.setMaxDamage(damage - 1);
