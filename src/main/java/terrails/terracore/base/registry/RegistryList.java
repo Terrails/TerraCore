@@ -70,7 +70,7 @@ public class RegistryList<T extends IForgeRegistryEntry> extends ArrayList<T> {
             check(override, entry);
             super.add(entry);
         }
-        return false;
+        return true;
     }
     public boolean addAll(int index, Collection<? extends T> entries, boolean override) {
         for (T entry : entries) {
@@ -78,7 +78,7 @@ public class RegistryList<T extends IForgeRegistryEntry> extends ArrayList<T> {
             check(override, entry);
             super.add(index, entry);
         }
-        return false;
+        return true;
     }
 
     private void check(boolean override, T entry) {

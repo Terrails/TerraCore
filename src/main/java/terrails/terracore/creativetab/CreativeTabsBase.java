@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public abstract class CreativeTabsBase extends CreativeTabs {
+public class CreativeTabsBase extends CreativeTabs {
 
     protected NonNullList<ItemStack> list = NonNullList.create();
     private final ItemStack stack;
