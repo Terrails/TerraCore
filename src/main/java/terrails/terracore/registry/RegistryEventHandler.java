@@ -12,8 +12,8 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import terrails.terracore.base.IModEntry;
-import terrails.terracore.base.IRegistryEntry;
 import terrails.terracore.block.item.IItemBlock;
 import terrails.terracore.block.item.ItemBlockBase;
 import terrails.terracore.client.ICustomModel;
@@ -25,18 +25,16 @@ import java.util.function.Predicate;
 public class RegistryEventHandler {
 
     private final IModEntry modEntry;
-    private final IRegistryEntry registryEntry;
 
     public RegistryEventHandler(IModEntry modEntry) {
         this.modEntry = modEntry;
-        this.registryEntry = modEntry.getRegistry();
     }
 
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerBlocks(RegistryEvent.Register<Block> event) {
         //  List<Block> blockRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BLOCK), LoadingStage.REGISTER).getEntries();
-        List<Block> blocks = this.registryEntry.register(RegistryList.newInstance(RegistryType.BLOCK, modEntry), LoadingStage.REGISTER);
+        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(blocks.toArray(new Block[0]));
     }
     @SubscribeEvent
@@ -44,11 +42,11 @@ public class RegistryEventHandler {
     public void registerItems(RegistryEvent.Register<Item> event) {
 
         //  List<Item> itemRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.ITEM), LoadingStage.REGISTER).getEntries();
-        List<Item> items = this.registryEntry.register(RegistryList.newInstance(RegistryType.ITEM, modEntry), LoadingStage.REGISTER);
+        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(items.toArray(new Item[0]));
 
         //   List<Block> blockRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BLOCK), LoadingStage.REGISTER).getEntries();
-        List<Block> blocks = this.registryEntry.register(RegistryList.newInstance(RegistryType.BLOCK, modEntry), LoadingStage.REGISTER);
+        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(blocks.stream()
                 .filter(IItemBlock.class::isInstance)
                 .map(IItemBlock.class::cast)
@@ -64,28 +62,28 @@ public class RegistryEventHandler {
     @SuppressWarnings("unchecked")
     public void registerPotions(RegistryEvent.Register<Potion> event) {
         // List<Potion> potionRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.POTION), LoadingStage.REGISTER).getEntries();
-        List<Potion> potions = this.registryEntry.register(RegistryList.newInstance(RegistryType.POTION, modEntry), LoadingStage.REGISTER);
+        List<Potion> potions = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.POTION, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(potions.toArray(new Potion[0]));
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerBiomes(RegistryEvent.Register<Biome> event) {
         // List<Biome> biomeRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BIOME), LoadingStage.REGISTER).getEntries();
-        List<Biome> biomes = this.registryEntry.register(RegistryList.newInstance(RegistryType.BIOME, modEntry), LoadingStage.REGISTER);
+        List<Biome> biomes = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BIOME, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(biomes.toArray(new Biome[0]));
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
         // List<SoundEvent> soundRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.SOUND_EVENT), LoadingStage.REGISTER).getEntries();
-        List<SoundEvent> soundEvents = this.registryEntry.register(RegistryList.newInstance(RegistryType.SOUND_EVENT, modEntry), LoadingStage.REGISTER);
+        List<SoundEvent> soundEvents = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.SOUND_EVENT, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(soundEvents.toArray(new SoundEvent[0]));
     }
     @SubscribeEvent
     @SuppressWarnings("unchecked")
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
         // List<Enchantment> enchantmentRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.ENCHANTMENT), LoadingStage.REGISTER).getEntries();
-        List<Enchantment> enchantments = this.registryEntry.register(RegistryList.newInstance(RegistryType.ENCHANTMENT, modEntry), LoadingStage.REGISTER);
+        List<Enchantment> enchantments = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ENCHANTMENT, modEntry), LoadingStage.REGISTER, Side.SERVER);
         event.getRegistry().registerAll(enchantments.toArray(new Enchantment[0]));
     }
 
@@ -93,7 +91,7 @@ public class RegistryEventHandler {
     @SuppressWarnings("unchecked")
     public void registerModels(ModelRegistryEvent event) {
         // List<Block> blockRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.BLOCK), LoadingStage.REGISTER).getEntries();
-        List<Block> blocks = this.registryEntry.register(RegistryList.newInstance(RegistryType.BLOCK, modEntry), LoadingStage.REGISTER);
+        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry), LoadingStage.REGISTER, Side.SERVER);
         blocks.stream()
                 .filter(ICustomModel.class::isInstance)
                 .map(ICustomModel.class::cast)
@@ -104,7 +102,7 @@ public class RegistryEventHandler {
                 .forEach(RegistryEventHandler::registerModel);
 
         // List<Item> itemRegistry = registryEntry.register(registryEntry.getRegistry(RegistryType.ITEM), LoadingStage.REGISTER).getEntries();
-        List<Item> items = this.registryEntry.register(RegistryList.newInstance(RegistryType.ITEM, modEntry), LoadingStage.REGISTER);
+        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry), LoadingStage.REGISTER, Side.SERVER);
         items.stream()
                 .filter(ICustomModel.class::isInstance)
                 .map(ICustomModel.class::cast)
