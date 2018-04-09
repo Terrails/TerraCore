@@ -24,11 +24,8 @@ pipeline {
                         sh './gradlew build -Pbranch=SNAPSHOT uploadArchives'
                     } else if (!env.BRANCH_NAME.contains("dev")) {
                         sh './gradlew build uploadArchives'
-<<<<<<< HEAD
                     } else {
                         sh './gradlew build -Pbranch=' + env.BRANCH_NAME + ' uploadArchives'
-=======
->>>>>>> 1.12.x
                     }
                 }
             }

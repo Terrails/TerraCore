@@ -12,7 +12,6 @@ buildscript {
 apply plugin: 'maven'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-<<<<<<< HEAD
 def minecraft_major = minecraft_version.substring(0, minecraft_version.lastIndexOf("."))
 
 version = minecraft_major + "-" + getVersion()
@@ -25,22 +24,6 @@ minecraft {
     runDir = "run"
 
     replace "@VERSION@", project.version
-=======
-sourceCompatibility = targetCompatibility = '1.8'
-sourceCompatibility = targetCompatibility = '1.8'
-
-version = getMajorMC() + "-" + getVersion()
-group = "terrails.terracore"
-archivesBaseName = "TerraCore"
-
-minecraft {
-    version = minecraft_version + "-" + forge_version
-    mappings = mappings_version
-    runDir = "run"
-
-    replace "@VERSION@", project.version
-    replaceIn "Constants.java"
->>>>>>> 1.12.x
 }
 
 processResources {
@@ -66,7 +49,6 @@ uploadArchives {
     }
 }
 
-<<<<<<< HEAD
 sourceCompatibility = targetCompatibility = '1.8'
 sourceCompatibility = targetCompatibility = '1.8'
 
@@ -74,12 +56,6 @@ String getVersion() {
     String version = mod_version
     String branch = project.hasProperty("branch") ? project.branch : ""
 
-=======
-String getVersion() {
-    String version = mod_version
-    String branch = project.hasProperty("branch") ? project.branch : ""
-
->>>>>>> 1.12.x
     if(branch != "") {
         version += "-" + branch
 
@@ -97,12 +73,4 @@ static String getBuildNumber() {
         buildNumber = System.getenv("bamboo_buildNumber") != null ? "." + System.getenv("bamboo_buildNumber") : ""
     }
     return buildNumber
-<<<<<<< HEAD
-=======
-}
-
-@SuppressWarnings("GrMethodMayBeStatic")
-String getMajorMC() {
-    return minecraft_version.substring(0, minecraft_version.lastIndexOf("."))
->>>>>>> 1.12.x
 }

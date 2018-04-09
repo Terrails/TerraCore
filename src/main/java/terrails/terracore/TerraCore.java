@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import terrails.terracore.base.MainModClass;
 
-<<<<<<< HEAD
 @Mod(modid = TerraCore.MOD_ID,
         name = TerraCore.MOD_NAME,
         version = TerraCore.VERSION)
@@ -20,14 +19,6 @@ public class TerraCore extends MainModClass<TerraCore> {
         super(MOD_ID, MOD_NAME, VERSION);
         this.useRegistry = false;
     }
-=======
-@Mod(modid = Constants.MOD_ID,
-        name = Constants.MOD_NAME,
-        version = Constants.VERSION)
-public class TerraCore {
-    @SidedProxy(clientSide = Constants.CLIENT_PROXY, serverSide = Constants.SERVER_PROXY)
-    public static IProxy proxy;
->>>>>>> 1.12.x
 
     @Mod.EventHandler
     @Override
