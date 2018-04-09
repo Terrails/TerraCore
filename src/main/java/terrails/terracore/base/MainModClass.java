@@ -16,7 +16,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     private final String modId;
     private final String modName;
     private final String version;
-    private final ProxyBase proxy;
+    private final ProxyBase proxyBase;
 
     /** Fields used for "config" options of the MainClass **/ // TODO: Add more stuff
     protected boolean useRegistry = true;
@@ -26,24 +26,24 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         this.modName = modName;
         this.version = version;
 
-        this.proxy = createProxies();
-        if (this.proxy != null) {
-            this.proxy.setMod(this);
+        this.proxyBase = createProxies();
+        if (this.proxyBase != null) {
+            this.proxyBase.setMod(this);
         }
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        this.proxy.preInit(event);
+        this.proxyBase.preInit(event);
 
         if (useRegistry) {
             MinecraftForge.EVENT_BUS.register(new RegistryEventHandler(this));
         }
     }
     public void init(FMLInitializationEvent event) {
-        this.proxy.init(event);
+        this.proxyBase.init(event);
     }
     public void postInit(FMLPostInitializationEvent event) {
-        this.proxy.postInit(event);
+        this.proxyBase.postInit(event);
     }
 
     /** IProxyRegistry **/ // TODO: Find a better name for it
@@ -69,7 +69,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     }
     @Override
     public ProxyBase getProxy() {
-        return this.proxy;
+        return this.proxyBase;
     }
     @Override
     public IProxyRegistry getProxyRegistry() {

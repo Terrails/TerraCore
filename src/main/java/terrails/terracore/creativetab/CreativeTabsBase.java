@@ -13,7 +13,7 @@ public class CreativeTabsBase extends CreativeTabs {
 
     public CreativeTabsBase(String label, ItemStack displayItem) {
         super(label);
-        this.stack = displayItem;
+        this.stack = displayItem == null ? ItemStack.EMPTY : displayItem;
     }
 
     @Override

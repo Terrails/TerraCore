@@ -74,7 +74,6 @@ public class RegistryEventHandler {
     }
 
     @SubscribeEvent
-    @SuppressWarnings("unchecked")
     public void registerModels(ModelRegistryEvent event) {
         List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
         blocks.stream()
