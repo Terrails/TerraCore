@@ -81,22 +81,22 @@ public class WorldUtils {
             }
         }
 
-        private IBlockState blockState;
-        private BlockPos pos;
-        private World world;
+        private final IBlockState blockState;
+        private final BlockPos pos;
+        private final World world;
 
-        private PlacementProperties.Type type;
-        private PlacementProperties.Kind kind;
-        private PlacementProperties.DeleteBlocks deleteBlocks;
+        private final PlacementProperties.Type type;
+        private final PlacementProperties.Kind kind;
+        private final PlacementProperties.DeleteBlocks deleteBlocks;
 
         /**
          * Used to check a certain facing instead of a radius,
          * example: Using UP will make it go only up with radius
          * and anything under the pos will be ignored
          */
-        private EnumFacing facing;
+        private final EnumFacing facing;
 
-        private int radiusX, radiusY, radiusZ;
+        private final int radiusX, radiusY, radiusZ;
 
         public Placement(PlacementProperties properties, EnumFacing facing, World world, BlockPos pos, int radiusX, int radiusY, int radiusZ, IBlockState blockState) {
             this.blockState = blockState;
@@ -111,13 +111,13 @@ public class WorldUtils {
             this.pos = pos;
         }
         public Placement(PlacementProperties properties, World world, BlockPos pos, int radiusX, int radiusY, int radiusZ, IBlockState blockState) {
-            this(properties, (EnumFacing) null, world, pos, radiusX, radiusY, radiusZ, blockState);
+            this(properties, null, world, pos, radiusX, radiusY, radiusZ, blockState);
         }
         public Placement(PlacementProperties properties, EnumFacing facing, World world, BlockPos pos, int radius, IBlockState blockState) {
             this(properties, facing, world, pos, radius, radius, radius, blockState);
         }
         public Placement(PlacementProperties properties, World world, BlockPos pos, int radius, IBlockState blockState) {
-            this(properties, (EnumFacing) null, world, pos, radius, radius, radius, blockState);
+            this(properties, null, world, pos, radius, radius, radius, blockState);
         }
 
         public void build() {
@@ -294,22 +294,22 @@ public class WorldUtils {
             }
         }
 
-        private IBlockState[] blockStates;
-        private BlockPos pos;
-        private IBlockAccess world;
+        private final IBlockState[] blockStates;
+        private final BlockPos pos;
+        private final IBlockAccess world;
 
-        private CheckerProperties.Kind kind;
-        private CheckerProperties.Check check;
-        private CheckerProperties.BlockType blockType;
+        private final CheckerProperties.Kind kind;
+        private final CheckerProperties.Check check;
+        private final CheckerProperties.BlockType blockType;
 
         /**
          * Used to check a certain facing instead of a radius,
          * example: Using UP will make it go only up with radius
          * and anything under the pos will be ignored
          */
-        private EnumFacing facing;
+        private final EnumFacing facing;
 
-        private int radiusX, radiusY, radiusZ;
+        private final int radiusX, radiusY, radiusZ;
 
         public Checker(CheckerProperties properties, EnumFacing facing, IBlockAccess world, BlockPos pos, int radiusX, int radiusY, int radiusZ, IBlockState... blockStates) {
             this.blockStates = blockStates;
@@ -330,13 +330,13 @@ public class WorldUtils {
             this(properties, facing, world, pos, radius, radius, radius, (IBlockState[]) null);
         }
         public Checker(CheckerProperties properties, IBlockAccess world, BlockPos pos, int radius, IBlockState... blockStates) {
-            this(properties, (EnumFacing) null, world, pos, radius, radius, radius, blockStates);
+            this(properties, null, world, pos, radius, radius, radius, blockStates);
         }
         public Checker(CheckerProperties properties, IBlockAccess world, BlockPos pos, int radiusX, int radiusY, int radiusZ) {
-            this(properties, (EnumFacing) null, world, pos, radiusX, radiusY, radiusZ, (IBlockState[]) null);
+            this(properties, null, world, pos, radiusX, radiusY, radiusZ, (IBlockState[]) null);
         }
         public Checker(CheckerProperties properties, IBlockAccess world, BlockPos pos, int radius) {
-            this(properties, (EnumFacing) null, world, pos, radius, radius, radius, (IBlockState[]) null);
+            this(properties, null, world, pos, radius, radius, radius, (IBlockState[]) null);
         }
 
         public boolean check() {

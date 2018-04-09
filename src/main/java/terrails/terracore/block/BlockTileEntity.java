@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 
 public abstract class BlockTileEntity<TE extends TileEntity> extends BlockBase {
 
-    public BlockTileEntity(Material materialIn, String modId) {
-        super(materialIn, modId);
+    public BlockTileEntity(Material materialIn) {
+        super(materialIn);
     }
 
     @Override

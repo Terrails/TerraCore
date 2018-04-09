@@ -6,12 +6,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public abstract class CreativeTabsBase extends CreativeTabs {
+public class CreativeTabsBase extends CreativeTabs {
 
     protected NonNullList<ItemStack> list = NonNullList.create();
+    private final ItemStack stack;
 
-    public CreativeTabsBase(String label) {
+    public CreativeTabsBase(String label, ItemStack displayItem) {
         super(label);
+        this.stack = displayItem == null ? ItemStack.EMPTY : displayItem;
+    }
+
+    @Override
+    public ItemStack getTabIconItem() {
+        return stack;
     }
 
     protected void add(ItemStack stack) {
@@ -20,7 +27,7 @@ public abstract class CreativeTabsBase extends CreativeTabs {
         }
     }
     protected void add(Item item, int meta) {
-        if(item != null){
+        if (item != null) {
             add(new ItemStack(item, 1, meta));
         }
     }
@@ -30,12 +37,12 @@ public abstract class CreativeTabsBase extends CreativeTabs {
         }
     }
     protected void add(Item item) {
-        if(item != null){
+        if (item != null) {
             item.getSubItems(this, this.list);
         }
     }
     protected void add(Block block) {
-        if(block != null){
+        if (block != null) {
             block.getSubBlocks(this, this.list);
         }
     }

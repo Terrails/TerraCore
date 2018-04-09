@@ -2,20 +2,23 @@ package terrails.terracore.item.tool;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
+import terrails.terracore.registry.IUnlocalizedName;
 
 @SuppressWarnings("ConstantConditions")
-public class PickaxeBase extends ItemPickaxe {
+public class PickaxeBase extends ItemPickaxe implements IUnlocalizedName<Item> {
 
-    private final String modId;
-
-    public PickaxeBase(ToolMaterial material, String modId) {
+    public PickaxeBase(ToolMaterial material) {
         super(material);
-        this.modId = modId;
         this.setCreativeTab(null);
     }
 
     @Override
-    public Item setUnlocalizedName(String name) {
-        return super.setUnlocalizedName(modId + "." + name);
+    public Item setEntryName(String name) {
+        return this.setUnlocalizedName(name);
+    }
+
+    @Override
+    public String getEntryName() {
+        return this.getUnlocalizedName();
     }
 }

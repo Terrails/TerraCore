@@ -12,9 +12,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldGenCustomMinable extends WorldGenerator {
 
-    private int veinSize;
-    private IBlockState oreToGenerate;
-    private BlockMatcher blockToReplace;
+    private final int veinSize;
+    private final IBlockState oreToGenerate;
+    private final BlockMatcher blockToReplace;
 
     public WorldGenCustomMinable(IBlockState oreToGenerate, int minVeinSize, int maxVeinSize, Block blockToReplace){
         this.oreToGenerate = oreToGenerate;

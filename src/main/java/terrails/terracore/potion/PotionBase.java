@@ -6,23 +6,22 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import terrails.terracore.registry.IUnlocalizedName;
 
-public class PotionBase extends Potion {
+public class PotionBase extends Potion implements IUnlocalizedName<Potion> {
 
     private ResourceLocation texture_location;
-    private final String modId;
 
-    public PotionBase(String modId, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
+    public PotionBase(boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
         super(isBadEffectIn, liquidColorIn);
-        this.modId = modId;
         this.setIconIndex(iconIndexX, iconIndexY);
     }
 
     protected void setTextureLocation(ResourceLocation location) {
         texture_location = location;
     }
-    protected void setDefaultTextureLocation(String modid) {
-        texture_location = new ResourceLocation(modid, "textures/misc/potions.png");
+    protected void setDefaultTextureLocation(String modId) {
+        texture_location = new ResourceLocation(modId, "textures/misc/potions.png");
     }
     protected ResourceLocation getTextureLocation() {
         return texture_location;
@@ -38,8 +37,18 @@ public class PotionBase extends Potion {
     }
 
     @Override
-    public Potion setPotionName(String name) {
-        return super.setPotionName("potion." + modId + "." + name);
+    public String getName() {
+        return "potion." + super.getName();
+    }
+
+    @Override
+    public String getEntryName() {
+        return this.getName();
+    }
+
+    @Override
+    public Potion setEntryName(String name) {
+        return this.setPotionName(name);
     }
 
     @Override

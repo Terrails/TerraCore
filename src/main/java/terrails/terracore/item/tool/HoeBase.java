@@ -2,20 +2,23 @@ package terrails.terracore.item.tool;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
+import terrails.terracore.registry.IUnlocalizedName;
 
 @SuppressWarnings("ConstantConditions")
-public class HoeBase extends ItemHoe {
+public class HoeBase extends ItemHoe implements IUnlocalizedName<Item> {
 
-    private final String modId;
-
-    public HoeBase(ToolMaterial material, String modId) {
+    public HoeBase(ToolMaterial material) {
         super(material);
-        this.modId = modId;
         setCreativeTab(null);
     }
 
     @Override
-    public Item setUnlocalizedName(String name) {
-        return super.setUnlocalizedName(modId + "." + name);
+    public Item setEntryName(String name) {
+        return this.setUnlocalizedName(name);
+    }
+
+    @Override
+    public String getEntryName() {
+        return this.getUnlocalizedName();
     }
 }
