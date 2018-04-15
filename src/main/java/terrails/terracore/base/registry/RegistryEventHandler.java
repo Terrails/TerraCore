@@ -72,35 +72,4 @@ public class RegistryEventHandler {
         List<Enchantment> enchantments = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ENCHANTMENT, modEntry));
         event.getRegistry().registerAll(enchantments.toArray(new Enchantment[0]));
     }
-
-    @SubscribeEvent
-    public void registerModels(ModelRegistryEvent event) {
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
-        blocks.stream()
-                .filter(ICustomModel.class::isInstance)
-                .map(ICustomModel.class::cast)
-                .forEach(ICustomModel::initModel);
-
-        blocks.stream()
-                .filter(((Predicate<Block>) ICustomModel.class::isInstance).negate())
-                .forEach(RegistryEventHandler::registerModel);
-
-        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry));
-        items.stream()
-                .filter(ICustomModel.class::isInstance)
-                .map(ICustomModel.class::cast)
-                .forEach(ICustomModel::initModel);
-
-        items.stream()
-                .filter(((Predicate<Item>) ICustomModel.class::isInstance).negate())
-                .forEach(RegistryEventHandler::registerModel);
-    }
-    private static void registerModel(Block block) {
-        ModelResourceLocation resourceLocation = new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory");
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, resourceLocation);
-    }
-    private static void registerModel(Item item) {
-        ModelResourceLocation resourceLocation = new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory");
-        ModelLoader.setCustomModelResourceLocation(item, 0, resourceLocation);
-    }
 }
