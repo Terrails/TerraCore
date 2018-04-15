@@ -30,6 +30,10 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         this.proxyBase = createProxies();
         if (this.proxyBase != null) {
             this.proxyBase.setMod(this);
+
+            if (FMLCommonHandler.instance().getEffectiveSide().isClient() && this.useRegistry) {
+                MinecraftForge.EVENT_BUS.register(proxyBase);
+            }
         }
     }
 
@@ -90,9 +94,6 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
             String target = side.isClient() ? "terrails.terracore.base.proxies.ClientProxy" : "terrails.terracore.base.proxies.ServerProxy";
             Object proxy = Class.forName(target).newInstance();
             if (proxy instanceof ProxyBase) {
-                if (side.isClient() && this.useRegistry) {
-                    MinecraftForge.EVENT_BUS.register(proxy);
-                }
                 return (ProxyBase) proxy;
             }
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {

@@ -1,24 +1,19 @@
 package terrails.terracore.base.registry;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import terrails.terracore.base.IModEntry;
 import terrails.terracore.registry.IItemBlock;
 import terrails.terracore.block.item.ItemBlockBase;
-import terrails.terracore.registry.client.ICustomModel;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
