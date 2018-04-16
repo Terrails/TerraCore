@@ -30,10 +30,6 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         this.proxyBase = createProxies();
         if (this.proxyBase != null) {
             this.proxyBase.setMod(this);
-
-            if (FMLCommonHandler.instance().getEffectiveSide().isClient() && this.useRegistry) {
-                MinecraftForge.EVENT_BUS.register(proxyBase);
-            }
         }
     }
 
