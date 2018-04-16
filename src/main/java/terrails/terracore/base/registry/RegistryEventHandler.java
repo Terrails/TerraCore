@@ -72,7 +72,6 @@ public class RegistryEventHandler {
         List<Enchantment> enchantments = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ENCHANTMENT, modEntry));
         event.getRegistry().registerAll(enchantments.toArray(new Enchantment[0]));
     }
-
     @SubscribeEvent
     public void registerModels(ModelRegistryEvent event) {
         List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));

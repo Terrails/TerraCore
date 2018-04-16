@@ -39,4 +39,5 @@ public class ClientProxy extends ProxyBase {
     public boolean isGamePaused() {
         return Minecraft.getMinecraft().isGamePaused();
     }
+
 }
