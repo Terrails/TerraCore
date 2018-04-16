@@ -23,7 +23,7 @@ minecraft {
 	mappings = mappings_version
     runDir = "run"
 
-    replace "@VERSION@", project.version
+    replace "@VERSION@", mod_version
 }
 
 processResources {
