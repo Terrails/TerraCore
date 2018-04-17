@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import terrails.terracore.base.IModEntry;
 import terrails.terracore.registry.IItemBlock;
 import terrails.terracore.block.item.ItemBlockBase;
+import terrails.terracore.registry.IPostRegistry;
 import terrails.terracore.registry.client.ICustomModel;
 
 import java.util.List;
@@ -34,11 +35,14 @@ public class RegistryEventHandler {
     public void registerBlocks(RegistryEvent.Register<Block> event) {
         List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.toArray(new Block[0]));
+
+        blocks.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         List<Item> items = getRegistry(RegistryType.ITEM);
         event.getRegistry().registerAll(items.toArray(new Item[0]));
+        items.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
 
         List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.stream()
@@ -56,21 +60,25 @@ public class RegistryEventHandler {
     public void registerPotions(RegistryEvent.Register<Potion> event) {
         List<Potion> potions = getRegistry(RegistryType.POTION);
         event.getRegistry().registerAll(potions.toArray(new Potion[0]));
+        potions.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerBiomes(RegistryEvent.Register<Biome> event) {
         List<Biome> biomes = getRegistry(RegistryType.BIOME);
         event.getRegistry().registerAll(biomes.toArray(new Biome[0]));
+        biomes.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
         List<SoundEvent> soundEvents = getRegistry(RegistryType.SOUND_EVENT);
         event.getRegistry().registerAll(soundEvents.toArray(new SoundEvent[0]));
+        soundEvents.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
         List<Enchantment> enchantments = getRegistry(RegistryType.ENCHANTMENT);
         event.getRegistry().registerAll(enchantments.toArray(new Enchantment[0]));
+        enchantments.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerModels(ModelRegistryEvent event) {
