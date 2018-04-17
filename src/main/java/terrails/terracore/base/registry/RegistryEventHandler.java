@@ -32,15 +32,15 @@ public class RegistryEventHandler {
 
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
+        List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.toArray(new Block[0]));
     }
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
-        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry));
+        List<Item> items = getRegistry(RegistryType.ITEM);
         event.getRegistry().registerAll(items.toArray(new Item[0]));
 
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
+        List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.stream()
                 .filter(IItemBlock.class::isInstance)
                 .map(IItemBlock.class::cast)
@@ -54,27 +54,27 @@ public class RegistryEventHandler {
     }
     @SubscribeEvent
     public void registerPotions(RegistryEvent.Register<Potion> event) {
-        List<Potion> potions = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.POTION, modEntry));
+        List<Potion> potions = getRegistry(RegistryType.POTION);
         event.getRegistry().registerAll(potions.toArray(new Potion[0]));
     }
     @SubscribeEvent
     public void registerBiomes(RegistryEvent.Register<Biome> event) {
-        List<Biome> biomes = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BIOME, modEntry));
+        List<Biome> biomes = getRegistry(RegistryType.BIOME);
         event.getRegistry().registerAll(biomes.toArray(new Biome[0]));
     }
     @SubscribeEvent
     public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-        List<SoundEvent> soundEvents = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.SOUND_EVENT, modEntry));
+        List<SoundEvent> soundEvents = getRegistry(RegistryType.SOUND_EVENT);
         event.getRegistry().registerAll(soundEvents.toArray(new SoundEvent[0]));
     }
     @SubscribeEvent
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
-        List<Enchantment> enchantments = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ENCHANTMENT, modEntry));
+        List<Enchantment> enchantments = getRegistry(RegistryType.ENCHANTMENT);
         event.getRegistry().registerAll(enchantments.toArray(new Enchantment[0]));
     }
     @SubscribeEvent
     public void registerModels(ModelRegistryEvent event) {
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
+        List<Block> blocks = getRegistry(RegistryType.BLOCK);
         blocks.stream()
                 .filter(ICustomModel.class::isInstance)
                 .map(ICustomModel.class::cast)
@@ -84,7 +84,7 @@ public class RegistryEventHandler {
                 .filter(((Predicate<Block>) ICustomModel.class::isInstance).negate())
                 .forEach(RegistryEventHandler::registerModel);
 
-        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry));
+        List<Item> items = getRegistry(RegistryType.ITEM);
         items.stream()
                 .filter(ICustomModel.class::isInstance)
                 .map(ICustomModel.class::cast)
@@ -101,5 +101,9 @@ public class RegistryEventHandler {
     private static void registerModel(Item item) {
         ModelResourceLocation resourceLocation = new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory");
         ModelLoader.setCustomModelResourceLocation(item, 0, resourceLocation);
+    }
+
+    private RegistryList getRegistry(RegistryType type) {
+        return this.modEntry.getRegistry(RegistryList.newInstance(type, this.modEntry));
     }
 }
