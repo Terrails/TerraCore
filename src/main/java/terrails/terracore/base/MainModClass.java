@@ -94,7 +94,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
 
     private ProxyBase createProxies() {
         try {
-            Side side = FMLCommonHandler.instance().getEffectiveSide();
+            Side side = FMLCommonHandler.instance().getSide();
             String target = side.isClient() ? "terrails.terracore.base.proxies.ClientProxy" : "terrails.terracore.base.proxies.ServerProxy";
             Object proxy = Class.forName(target).newInstance();
             if (proxy instanceof ProxyBase) {
