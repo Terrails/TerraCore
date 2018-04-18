@@ -1,5 +1,6 @@
 package terrails.terracore.base;
 
+import com.google.common.collect.Maps;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -10,6 +11,9 @@ import terrails.terracore.base.proxies.ProxyBase;
 import terrails.terracore.base.registry.LoadingStage;
 import terrails.terracore.base.registry.RegistryEventHandler;
 import terrails.terracore.base.registry.RegistryList;
+import terrails.terracore.base.registry.RegistryType;
+
+import java.util.Map;
 
 public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IProxyRegistry {
 
@@ -20,6 +24,8 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
 
     /** Fields used for "config" options of the MainClass **/ // TODO: Add more stuff
     protected boolean useRegistry = true;
+
+    private Map<RegistryType, RegistryList> registryEntries = Maps.newHashMap();
 
     public MainModClass(String modId, String modName, String version) {
         this.modId = modId;
@@ -77,6 +83,9 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     }
     @Override
     public RegistryList getRegistry(RegistryList list) {
+        if (registryEntries.containsKey(list.getType()))
+            return registryEntries.get(list.getType());
+
         this.registerForgeEntries(list);
         return list;
     }
@@ -89,6 +98,9 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
             String target = side.isClient() ? "terrails.terracore.base.proxies.ClientProxy" : "terrails.terracore.base.proxies.ServerProxy";
             Object proxy = Class.forName(target).newInstance();
             if (proxy instanceof ProxyBase) {
+                if (side.isClient()) {
+                    MinecraftForge.EVENT_BUS.register(proxy);
+                }
                 return (ProxyBase) proxy;
             }
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
