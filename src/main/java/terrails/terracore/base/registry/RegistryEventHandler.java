@@ -77,7 +77,7 @@ public class RegistryEventHandler {
         enchantments.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
 
-    private <T extends IForgeRegistryEntry<T>> List<T> getRegistry(RegistryType type) {
+    private <R extends IForgeRegistryEntry> List<R> getRegistry(RegistryType type) {
         return this.modEntry.getRegistry().getForgeEntries(Lists.newArrayList(), type);
     }
 }

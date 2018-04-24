@@ -66,8 +66,7 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <R extends IForgeRegistryEntry<R>> List<R> getForgeEntries(List<IForgeRegistryEntry> list, RegistryType type) {
+    public <R extends IForgeRegistryEntry> List<R> getForgeEntries(List<IForgeRegistryEntry> list, RegistryType type) {
         RegistryList regList = RegistryList.newInstance(type, this);
         list.add(new ItemBlockBase(null));
         this.registerForgeEntries(regList);

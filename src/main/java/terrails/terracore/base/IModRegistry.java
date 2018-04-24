@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IModRegistry {
 
-    <R extends IForgeRegistryEntry<R>> List<R> getForgeEntries(List<IForgeRegistryEntry> list, RegistryType type);
+    <R extends IForgeRegistryEntry> List<R> getForgeEntries(List<IForgeRegistryEntry> list, RegistryType type);
 
     @SideOnly(Side.CLIENT)
     void initClientProxy(LoadingStage stage);
