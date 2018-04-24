@@ -68,7 +68,6 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
     @Override
     public <R extends IForgeRegistryEntry> List<R> getForgeEntries(List<IForgeRegistryEntry> list, RegistryType type) {
         RegistryList regList = RegistryList.newInstance(type, this);
-        list.add(new ItemBlockBase(null));
         this.registerForgeEntries(regList);
         return (regList.isEmpty() ? (List<R>) list : regList);
     }
