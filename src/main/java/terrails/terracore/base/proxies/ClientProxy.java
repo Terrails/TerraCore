@@ -1,5 +1,6 @@
 package terrails.terracore.base.proxies;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -11,9 +12,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import terrails.terracore.base.registry.LoadingStage;
-import terrails.terracore.base.registry.RegistryList;
 import terrails.terracore.base.registry.RegistryType;
 import terrails.terracore.registry.client.ICustomModel;
 
@@ -25,17 +24,17 @@ public class ClientProxy extends ProxyBase {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        this.modEntry.getProxyRegistry().registerProxyEntries(Side.CLIENT, LoadingStage.PRE_INIT);
+        this.modEntry.getRegistry().initClientProxy(LoadingStage.PRE_INIT);
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        this.modEntry.getProxyRegistry().registerProxyEntries(Side.CLIENT, LoadingStage.INIT);
+        this.modEntry.getRegistry().initClientProxy(LoadingStage.INIT);
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-        this.modEntry.getProxyRegistry().registerProxyEntries(Side.CLIENT, LoadingStage.POST_INIT);
+        this.modEntry.getRegistry().initClientProxy(LoadingStage.POST_INIT);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class ClientProxy extends ProxyBase {
 
     @SubscribeEvent
     public void registerModels(ModelRegistryEvent event) {
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, this.modEntry));
+        List<Block> blocks = this.modEntry.getRegistry().getForgeEntries(Lists.newArrayList(), RegistryType.BLOCK);
         blocks.stream()
                 .filter(ICustomModel.class::isInstance)
                 .map(ICustomModel.class::cast)
@@ -65,7 +64,7 @@ public class ClientProxy extends ProxyBase {
                 .filter(((Predicate<Block>) ICustomModel.class::isInstance).negate())
                 .forEach(ClientProxy::registerModel);
 
-        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, this.modEntry));
+        List<Item> items = this.modEntry.getRegistry().getForgeEntries(Lists.newArrayList(), RegistryType.ITEM);
         items.stream()
                 .filter(ICustomModel.class::isInstance)
                 .map(ICustomModel.class::cast)

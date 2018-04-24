@@ -1,5 +1,6 @@
 package terrails.terracore.base.registry;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
@@ -9,6 +10,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.base.IModEntry;
 import terrails.terracore.registry.IItemBlock;
 import terrails.terracore.block.item.ItemBlockBase;
@@ -17,7 +19,6 @@ import terrails.terracore.registry.IPostRegistry;
 import java.util.List;
 import java.util.function.Predicate;
 
-@SuppressWarnings("unchecked")
 public class RegistryEventHandler {
 
     private final IModEntry modEntry;
@@ -76,7 +77,7 @@ public class RegistryEventHandler {
         enchantments.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
 
-    private RegistryList getRegistry(RegistryType type) {
-        return this.modEntry.getRegistry(RegistryList.newInstance(type, this.modEntry));
+    private <T extends IForgeRegistryEntry> List<T> getRegistry(RegistryType type) {
+        return this.modEntry.getRegistry().getForgeEntries(Lists.newArrayList(), type);
     }
 }

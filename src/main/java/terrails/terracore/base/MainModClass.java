@@ -1,21 +1,22 @@
 package terrails.terracore.base;
 
-import com.google.common.collect.Maps;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.base.proxies.ProxyBase;
 import terrails.terracore.base.registry.LoadingStage;
 import terrails.terracore.base.registry.RegistryEventHandler;
 import terrails.terracore.base.registry.RegistryList;
 import terrails.terracore.base.registry.RegistryType;
 
-import java.util.Map;
+import java.util.List;
 
-public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IProxyRegistry {
+public abstract class MainModClass<T extends MainModClass> implements IModEntry<T>, IModRegistry {
 
     private final String modId;
     private final String modName;
@@ -24,8 +25,6 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
 
     /** Fields used for "config" options of the MainClass **/ // TODO: Add more stuff
     protected boolean useRegistry = true;
-
-    private Map<RegistryType, RegistryList> registryEntries = Maps.newHashMap();
 
     public MainModClass(String modId, String modName, String version) {
         this.modId = modId;
@@ -52,13 +51,31 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         this.proxyBase.postInit(event);
     }
 
-    /** IProxyRegistry **/ // TODO: Find a better name for it
+    /** IModRegistry **/
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void initClientProxy(LoadingStage stage) {
+        this.registerProxyEntries(Side.CLIENT, stage);
+    }
+    @SideOnly(Side.SERVER)
+    @Override
+    public void initServerProxy(LoadingStage stage) {
+        this.registerProxyEntries(Side.SERVER, stage);
+    }
 
     @Override
-    public void registerForgeEntries(RegistryList list) {}
+    public <R extends IForgeRegistryEntry> List<R> getForgeEntries(List<R> list, RegistryType type) {
+        RegistryList regList = RegistryList.newInstance(type, this);
+        this.registerForgeEntries(regList);
+        return (regList.isEmpty() ? list : regList);
+    }
 
-    @Override
+    // Used for mods which use the old methods... TODO: Remove in 1.13
+    @Deprecated
     public void registerProxyEntries(Side side, LoadingStage stage) {}
+    @Deprecated
+    public void registerForgeEntries(RegistryList list) {}
 
     /** IModEntry **/
     @Override
@@ -78,16 +95,8 @@ public abstract class MainModClass<T extends MainModClass> implements IModEntry<
         return this.proxyBase;
     }
     @Override
-    public IProxyRegistry getProxyRegistry() {
+    public IModRegistry getRegistry() {
         return this;
-    }
-    @Override
-    public RegistryList getRegistry(RegistryList list) {
-        if (registryEntries.containsKey(list.getType()))
-            return registryEntries.get(list.getType());
-
-        this.registerForgeEntries(list);
-        return list;
     }
 
     /** END **/
