@@ -31,8 +31,6 @@ public class RegistryEventHandler {
     public void registerBlocks(RegistryEvent.Register<Block> event) {
         List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.toArray(new Block[0]));
-
-        blocks.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
@@ -51,6 +49,9 @@ public class RegistryEventHandler {
                 .filter(((Predicate<Block>) IItemBlock.class::isInstance).negate())
                 .map(ItemBlockBase::new)
                 .toArray(ItemBlock[]::new));
+
+        // Its here instead of Block event cause adding ore dictionary before the ItemBlock is registered will throw an error
+        blocks.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerPotions(RegistryEvent.Register<Potion> event) {
