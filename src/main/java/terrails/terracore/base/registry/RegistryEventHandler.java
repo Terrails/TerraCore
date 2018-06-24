@@ -1,27 +1,24 @@
 package terrails.terracore.base.registry;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import terrails.terracore.base.IModEntry;
 import terrails.terracore.registry.IItemBlock;
 import terrails.terracore.block.item.ItemBlockBase;
-import terrails.terracore.registry.client.ICustomModel;
+import terrails.terracore.registry.IPostRegistry;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
-@SuppressWarnings("unchecked")
 public class RegistryEventHandler {
 
     private final IModEntry modEntry;
@@ -32,15 +29,16 @@ public class RegistryEventHandler {
 
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
+        List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.toArray(new Block[0]));
     }
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
-        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry));
+        List<Item> items = getRegistry(RegistryType.ITEM);
         event.getRegistry().registerAll(items.toArray(new Item[0]));
+        items.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
 
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
+        List<Block> blocks = getRegistry(RegistryType.BLOCK);
         event.getRegistry().registerAll(blocks.stream()
                 .filter(IItemBlock.class::isInstance)
                 .map(IItemBlock.class::cast)
@@ -51,55 +49,36 @@ public class RegistryEventHandler {
                 .filter(((Predicate<Block>) IItemBlock.class::isInstance).negate())
                 .map(ItemBlockBase::new)
                 .toArray(ItemBlock[]::new));
+
+        // Its here instead of Block event cause adding ore dictionary before the ItemBlock is registered will throw an error
+        blocks.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerPotions(RegistryEvent.Register<Potion> event) {
-        List<Potion> potions = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.POTION, modEntry));
+        List<Potion> potions = getRegistry(RegistryType.POTION);
         event.getRegistry().registerAll(potions.toArray(new Potion[0]));
+        potions.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerBiomes(RegistryEvent.Register<Biome> event) {
-        List<Biome> biomes = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BIOME, modEntry));
+        List<Biome> biomes = getRegistry(RegistryType.BIOME);
         event.getRegistry().registerAll(biomes.toArray(new Biome[0]));
+        biomes.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-        List<SoundEvent> soundEvents = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.SOUND_EVENT, modEntry));
+        List<SoundEvent> soundEvents = getRegistry(RegistryType.SOUND_EVENT);
         event.getRegistry().registerAll(soundEvents.toArray(new SoundEvent[0]));
+        soundEvents.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
     @SubscribeEvent
     public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
-        List<Enchantment> enchantments = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ENCHANTMENT, modEntry));
+        List<Enchantment> enchantments = getRegistry(RegistryType.ENCHANTMENT);
         event.getRegistry().registerAll(enchantments.toArray(new Enchantment[0]));
+        enchantments.stream().filter(IPostRegistry.class::isInstance).map(IPostRegistry.class::cast).forEach(IPostRegistry::initEntry);
     }
-    @SubscribeEvent
-    public void registerModels(ModelRegistryEvent event) {
-        List<Block> blocks = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.BLOCK, modEntry));
-        blocks.stream()
-                .filter(ICustomModel.class::isInstance)
-                .map(ICustomModel.class::cast)
-                .forEach(ICustomModel::initModel);
 
-        blocks.stream()
-                .filter(((Predicate<Block>) ICustomModel.class::isInstance).negate())
-                .forEach(RegistryEventHandler::registerModel);
-
-        List<Item> items = this.modEntry.getRegistry(RegistryList.newInstance(RegistryType.ITEM, modEntry));
-        items.stream()
-                .filter(ICustomModel.class::isInstance)
-                .map(ICustomModel.class::cast)
-                .forEach(ICustomModel::initModel);
-
-        items.stream()
-                .filter(((Predicate<Item>) ICustomModel.class::isInstance).negate())
-                .forEach(RegistryEventHandler::registerModel);
-    }
-    private static void registerModel(Block block) {
-        ModelResourceLocation resourceLocation = new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), "inventory");
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, resourceLocation);
-    }
-    private static void registerModel(Item item) {
-        ModelResourceLocation resourceLocation = new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory");
-        ModelLoader.setCustomModelResourceLocation(item, 0, resourceLocation);
+    private <R extends IForgeRegistryEntry> List<R> getRegistry(RegistryType type) {
+        return this.modEntry.getRegistry().getForgeEntries(Lists.newArrayList(), type);
     }
 }

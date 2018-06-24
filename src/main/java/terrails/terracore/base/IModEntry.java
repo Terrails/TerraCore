@@ -1,7 +1,6 @@
 package terrails.terracore.base;
 
 import terrails.terracore.base.proxies.ProxyBase;
-import terrails.terracore.base.registry.RegistryList;
 
 public interface IModEntry<T> {
 
@@ -11,8 +10,7 @@ public interface IModEntry<T> {
     String getName();
     String getVersion();
 
-    IProxyRegistry getProxyRegistry();
+    IModRegistry getRegistry();
 
     ProxyBase getProxy();
-    RegistryList getRegistry(RegistryList list);
 }

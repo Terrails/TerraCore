@@ -119,7 +119,7 @@ public class RegistryList<T extends IForgeRegistryEntry> extends ArrayList<T> {
         }
     }
 
-    public static RegistryList newInstance(RegistryType type, IModEntry modEntry) {
+    public static RegistryList<? extends IForgeRegistryEntry> newInstance(RegistryType type, IModEntry modEntry) {
         return new RegistryList(type, modEntry);
     }
 }
