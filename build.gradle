@@ -1,51 +1,44 @@
-/**───────────────────────────────────────────────────────────────────────────────────**/
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-/**───────────────────────────────────────────────────────────────────────────────────**/
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-def minecraft_version = "1.12.2"
-def forge_version = "14.23.5.2814"
-def mappings_version = "snapshot_20171003"
-
-def minecraft_major = minecraft_version.substring(0, minecraft_version.lastIndexOf("."))
+def minecraft_version = "1.13.2"
+def forge_version = "25.0.108"
+def mappings_version = ["stable", "45-1.13.1"]
 
 version = "2.1.13"
 group = "terrails.terracore"
 archivesBaseName = "TerraCore-${minecraft_version}"
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    mappings = "${mappings_version}"
-    runDir = "run"
+    mappings channel: mappings_version[0], version: mappings_version[1]
 
-    replace "@VERSION@", project.version
+    runs {
+        client {
+            workingDirectory project.file("run")
+            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+            property "forge.logging.console.level", "debug"
+        }
+
+        server {
+            workingDirectory project.file("run")
+            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+            property "forge.logging.console.level", "debug"
+        }
+    }
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 }
 
 uploadArchives {
